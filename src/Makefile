@@ -10,18 +10,25 @@ ADEP = $(AOBJ:.o=.d)
 TARGET = asyskrn.exe
 LDSCRIPT = asys.ld
 
+DSYS = dsys/dsys.a
+HSYS = hsys/hsys.a
+
 export CC = riscv64-unknown-elf-gcc
 export LD = riscv64-unknown-elf-ld
 export AS = riscv64-unknown-elf-as
+export AR = riscv64-unknown-elf-ar
 
-export CFLAGS = -O2 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
-export CFLAGS += -mcmodel=medany
+export CFLAGS = -O0 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
+export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
 export ASFLAGS += --MD $(@:.o=.d)
-export LDFLAGS += -nostdlib -T$(LDSCRIPT)
+export LDFLAGS = -nostdlib -T$(LDSCRIPT)
+export ARFLAGS = rcs
 
-$(TARGET): $(OBJ) $(AOBJ)
+$(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS)
 	@echo "	LD		$@"
 	@$(LD) -o $@ $^ $(LDFLAGS)
+
+-include $(DEP) $(ADEP)
 
 %.o: %.S
 	@echo "	AS		$<"
@@ -31,10 +38,17 @@ $(TARGET): $(OBJ) $(AOBJ)
 	@echo "	CC		$<"
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
--include $(DEP) $(ADEP)
+
+$(DSYS) $(HSYS):
+	@echo "	RECURSE		$@"
+	@$(MAKE) $(MAKEFLAGS) -C $(shell echo $@ | sed 's/\/.*//')
 
 .PHONY: clean
-clean:
+clean: clean-hsys clean-dsys
 	@echo "	CLEAN		$(TARGET)"
 	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET)
 
+.PHONY: clean-hsys clean-dsys
+clean-hsys clean-dsys:
+	@echo "	RECURSE		$@"
+	@$(MAKE) $(MAKEFLAGS) -C $(subst clean-,,$@)/ clean

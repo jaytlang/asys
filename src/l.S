@@ -9,6 +9,8 @@ _start:
 	bnez a0, spin
 
 	la sp, kstack
+	li t0, 4096
+	add sp, sp, t0
 	call main
 spin:
 	j spin
