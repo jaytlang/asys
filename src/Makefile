@@ -20,35 +20,32 @@ export AR = riscv64-unknown-elf-ar
 
 export CFLAGS = -O0 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
 export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
-export ASFLAGS += --MD $(@:.o=.d)
 export LDFLAGS = -nostdlib -T$(LDSCRIPT)
 export ARFLAGS = rcs
 
 $(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS)
-	@echo "	LD		$@"
+	@echo "	LD	$@"
 	@$(LD) -o $@ $^ $(LDFLAGS)
 
 -include $(DEP) $(ADEP)
 
 %.o: %.S
-	@echo "	AS		$<"
-	@$(AS) $(ASFLAGS) -c -o $@ $<
+	@echo "	AS	$<"
+	$(AS) --MD $(@:.o=.d) -c -o $@ $<
 
 %.o: %.c
-	@echo "	CC		$<"
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	@echo "	CC	$<"
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 
 $(DSYS) $(HSYS):
-	@echo "	RECURSE		$@"
-	@$(MAKE) $(MAKEFLAGS) -C $(shell echo $@ | sed 's/\/.*//')
+	@$(MAKE) -C $(shell echo $@ | sed 's/\/.*//')
 
 .PHONY: clean
 clean: clean-hsys clean-dsys
-	@echo "	CLEAN		$(TARGET)"
+	@echo "	CLEAN	$(TARGET)"
 	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET)
 
 .PHONY: clean-hsys clean-dsys
 clean-hsys clean-dsys:
-	@echo "	RECURSE		$@"
-	@$(MAKE) $(MAKEFLAGS) -C $(subst clean-,,$@)/ clean
+	@$(MAKE) -C $(subst clean-,,$@)/ clean

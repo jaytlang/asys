@@ -5,4 +5,8 @@
 void	devwrite(unsigned long address, unsigned int offset, char value);
 char	devread(unsigned long address, unsigned int offset);
 
+/* Spinlocks */
+void	acquire(unsigned int *lock);
+void	release(unsigned int *lock);
+
 #endif /* INC_KAPI_HSYS */

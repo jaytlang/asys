@@ -6,17 +6,17 @@ TARGET = dsys.a
 CFLAGS += -I../kapi
 
 $(TARGET): $(OBJ)
-	@echo "	AR		$@"
+	@echo "	AR	$@"
 	@$(AR) $(ARFLAGS) $@ $^
 
 -include $(DEP)
 
 %.o: %.c
-	@echo "	CC		$<"
+	@echo "	CC	$<"
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
-	@echo "	CLEAN		$(TARGET)"
+	@echo "	CLEAN	$(TARGET)"
 	@rm -rf $(OBJ) $(DEP) $(TARGET)
 

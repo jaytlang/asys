@@ -4,6 +4,7 @@
 #include "uart.h"
 
 /* Back when men were men, and wrote their own device drivers... */
+unsigned int uartlock = 0;
 
 void
 uartinit(void)
@@ -17,15 +18,25 @@ uartinit(void)
 	devwrite(UART_ADDRESS, UART_OFFSET_IER, 0x1);
 }
 
+/* Unequivocally useless and absolutely horrible: this should
+ * be a sleep lock. At this rate I'm gonna take it out.
+ */
 char
 uartreadc(void)
 {
-	if(devread(UART_ADDRESS, UART_OFFSET_LSR) == 0)
-		return 0;
-	else return devread(UART_ADDRESS, UART_OFFSET_DATA);
+	char result;
+
+	acquire(&uartlock);
+	while(devread(UART_ADDRESS, UART_OFFSET_LSR) == 0);
+
+	result = devread(UART_ADDRESS, UART_OFFSET_DATA);
+	release(&uartlock);
+	return result;
 }
 
 void uartwrite(char *c)
 {
+	acquire(&uartlock);
 	while(*c) devwrite(UART_ADDRESS, UART_OFFSET_DATA, *c++);
+	release(&uartlock);
 }

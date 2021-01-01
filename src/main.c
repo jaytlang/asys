@@ -8,7 +8,14 @@ __attribute__((aligned(16))) char kstack[4096];
 int
 main()
 {
+	char thischar;
+
 	uartinit();
-	uartwrite("Hello there (:\n");
+	uartwrite("Hello there! Type what you want. (:\n");
+
+	for(;;){
+		thischar = uartreadc();	
+		uartwrite(&thischar);
+	}
 	return 0xdeadbeef;
 }

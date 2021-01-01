@@ -8,42 +8,39 @@ QEMUFLAGS += -m $(RAM) -smp $(CPUS) -nographic
 QEMU_GDBFLAGS = -s -S
 
 GDB = riscv64-unknown-elf-gdb
-
-MAKEFLAGS += --no-print-directory
+MAKEFLAGS = --no-print-directory --quiet
 
 .PHONY: all
 all:
-	@echo "	RECURSE		$(KERNEL)"
-	@$(MAKE) $(MAKEFLAGS) -C src/
+	@$(MAKE) -C src/
 
 $(KERNEL):
-	@echo "	RECURSE		$(KERNEL)"
-	@$(MAKE) $(MAKEFLAGS) -C src/
+	@$(MAKE) -C src/
 
 .PHONY: sim
 sim: all
-	@echo "	QEMU		$(KERNEL)"
+	@echo "	QEMU	$(KERNEL)"
 	@$(QEMU) $(QEMUFLAGS)
 
 ###### Developer helpers beyond this point ######
 machine.dts: all
-	@echo "	DTS		$(KERNEL)"
+	@echo "	DTC	$@"
 	@$(QEMU) $(QEMUFLAGS) -machine dumpdtb=machine.dtb
 	@dtc machine.dtb > $@
 	@$(RM) machine.dtb
 
-.PHONY: debug
+.PHONY: sim-debug
 sim-debug: all
-	@echo "	DEBUG		$(KERNEL)"
+	@echo "	QEMU	$(KERNEL)"
 	@echo "	Now make gdb and do: target remote localhost:1234"
 	@$(QEMU) $(QEMUFLAGS) $(QEMU_GDBFLAGS)
 
 .PHONY: gdb
 gdb: all
-	@echo "	GDB		$(KERNEL)"
+	@echo "	GDB	$(KERNEL)"
 	@$(GDB) $(KERNEL)
 
 .PHONY: clean
 clean:
-	@echo "	RECURSE 	$(KERNEL)"
-	@$(MAKE) $(MAKEFLAGS) -C src/ clean
+	@$(MAKE) -C src/ clean
+	@echo "	CLEAN	ALL"
