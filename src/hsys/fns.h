@@ -2,9 +2,10 @@
 #define INC_HSYS_LOCK
 
 /* Assembly routines in l.S: atomic lock
- * acquisition / swap operations
+ * acquisition / swap operations, panic
  */
 extern void	llacquire(unsigned int *lock);
 extern void	llrelease(unsigned int *lock);
+extern void	llwfi(void);
 
 #endif /* INC_HSYS_LOCK */

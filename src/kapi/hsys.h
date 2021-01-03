@@ -9,4 +9,7 @@ char	devread(unsigned long address, unsigned int offset);
 void	acquire(unsigned int *lock);
 void	release(unsigned int *lock);
 
+/* Death */
+void	ultimateyeet(char *reason);
+
 #endif /* INC_KAPI_HSYS */

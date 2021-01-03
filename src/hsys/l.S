@@ -15,3 +15,9 @@ again:
 llrelease:
 	amoswap.w.rl x0, x0, (a0)
 	ret
+
+# WFI loop -- low power state
+.globl llwfi
+llwfi:
+	wfi
+	j llwfi
