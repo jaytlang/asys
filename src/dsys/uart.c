@@ -18,25 +18,28 @@ uartinit(void)
 	devwrite(UART_ADDRESS, UART_OFFSET_IER, 0x1);
 }
 
-/* Unequivocally useless and absolutely horrible: this should
- * be a sleep lock. At this rate I'm gonna take it out.
- */
-char
-uartreadc(void)
-{
-	char result;
-
-	acquire(&uartlock);
-	while(devread(UART_ADDRESS, UART_OFFSET_LSR) == 0);
-
-	result = devread(UART_ADDRESS, UART_OFFSET_DATA);
-	release(&uartlock);
-	return result;
-}
-
-void uartwrite(char *c)
+void
+uartwrite(char *c)
 {
 	acquire(&uartlock);
 	while(*c) devwrite(UART_ADDRESS, UART_OFFSET_DATA, *c++);
+	release(&uartlock);
+}
+
+void
+uartwritenum(unsigned long num)
+{
+	char buf[20];	/* max 64 bit number has 20 digits */
+	unsigned int i, j;
+
+	i = 0;
+
+	while(num > 0 && i < 20){
+		buf[i++] = num % 10 + '0';
+		num /= 10;
+	}
+	acquire(&uartlock);
+	for(j = i; j != 0; j--)
+		devwrite(UART_ADDRESS, UART_OFFSET_DATA, buf[j-1]);
 	release(&uartlock);
 }

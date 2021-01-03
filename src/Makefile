@@ -12,18 +12,20 @@ LDSCRIPT = asys.ld
 
 DSYS = dsys/dsys.a
 HSYS = hsys/hsys.a
+LSYS = lsys/lsys.a
+MSYS = msys/msys.a
 
 export CC = riscv64-unknown-elf-gcc
 export LD = riscv64-unknown-elf-ld
 export AS = riscv64-unknown-elf-as
 export AR = riscv64-unknown-elf-ar
 
-export CFLAGS = -O0 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
+export CFLAGS = -O2 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
 export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
 export LDFLAGS = -nostdlib -T$(LDSCRIPT)
 export ARFLAGS = rcs
 
-$(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS)
+$(TARGET): $(OBJ) $(AOBJ) $(MSYS) $(DSYS) $(LSYS) $(HSYS)
 	@echo "	LD	$@"
 	@$(LD) -o $@ $^ $(LDFLAGS)
 
@@ -38,14 +40,14 @@ $(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 
-$(DSYS) $(HSYS):
+$(DSYS) $(HSYS) $(LSYS) $(MSYS):
 	@$(MAKE) -C $(shell echo $@ | sed 's/\/.*//')
 
 .PHONY: clean
-clean: clean-hsys clean-dsys
+clean: clean-hsys clean-dsys clean-lsys clean-msys
 	@echo "	CLEAN	$(TARGET)"
 	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET)
 
-.PHONY: clean-hsys clean-dsys
-clean-hsys clean-dsys:
+.PHONY: clean-hsys clean-dsys clean-lsys clean-msys
+clean-hsys clean-dsys clean-lsys clean-msys:
 	@$(MAKE) -C $(subst clean-,,$@)/ clean

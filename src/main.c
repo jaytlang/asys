@@ -1,21 +1,19 @@
 #include <dsys.h>
+#include <msys.h>
 
 #include "dat.h"
 #include "fns.h"
 
 __attribute__((aligned(16))) char kstack[4096];
 
-int
-main()
+int main()
 {
-	char thischar;
-
 	uartinit();
-	uartwrite("Hello there! Type what you want. (:\n");
+	uartwrite("asyskrn.exe version 0.1\n");
+	uartwrite("\nInitializing the page allocator\n");
 
-	for(;;){
-		thischar = uartreadc();	
-		uartwrite(&thischar);
-	}
+
+	initpagealloc();
+	printpageallocstate();
 	return 0xdeadbeef;
 }
