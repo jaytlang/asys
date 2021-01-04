@@ -11,10 +11,12 @@ _start:
 	/* Get ready for supervisor
 	 * mode, so we don't needa jump
 	 * that gap later on. Interrupts
-	 * get enabled here eventually.
+	 * get enabled here eventually,
+	 * disable them for now.
 	 */
 	li t0, (1 << 11)	/* supervisor mode */
 	csrw mstatus, t0
+	csrw mie, x0
 
 	la sp, kstack
 	li t0, 4096
