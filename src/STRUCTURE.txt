@@ -1,0 +1,29 @@
+Kernel structure:
+
+HARDWARE ABSTRACTION LAYER:
+dsys: debug system. kernel-mode UART driver for pretty-printing
+	before userspace gets configured. eventually will be removed and
+	replaced with a user mode UART driver, and early kernel initialization
+	just won't print
+csys: machine mode timer subsystem + interrupt vector. raises a software
+	interrupt, which will pass through hsys before probably hitting
+	psys.
+hsys: Catch-all. Generally a buncha thin wrappers around assembly routines
+	to assist other kernel systems in their work. also contains
+	code for trap handlers, which then pass to psys/msys/isys.
+
+UPPER KERNEL:
+msys: virtual memory management system
+lsys: library system, i.e. kernel libc. Does not contain kernel specific
+	code, i.e. can be linked to userspace programs in addition.
+psys: Process subsystem. Work in progress. Scheduling etc.
+isys: Interprocess communication subsystem. Implementation of message passing
+	and memory grants (the latter are helped by msys ofc)
+
+HEADERS:
+kapi: Internal kernel API, i.e. public headers from each system
+
+KERNEL DRIVER:
+kdrv: User-facing process which runs under the kernel address space, but as if
+	it is a normal user process. "System calls" are dealt with by this process,
+	i.e. messages sent our way. 

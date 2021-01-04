@@ -7,6 +7,7 @@
 #include "fns.h"
 
 struct freelist *basenode;
+unsigned int pglock = 0;
 
 void
 initpagealloc(void)
@@ -16,6 +17,7 @@ initpagealloc(void)
 	/* ekernel isn't necessarily page aligned. Round up */
 	p = (char *)roundup((unsigned long)ekernel, PAGESIZE);
 
+	/* assume no locking needed yet */
 	basenode = NULL;
 	uartwrite("Indexing system memory\n");
 	for(; p + PAGESIZE < (char *)MEMORY_TOP; p += PAGESIZE){
@@ -39,8 +41,11 @@ freepage(void *page)
 
 	memset(page, 0, PAGESIZE);
 	thisnode = (struct freelist *)page;
+
+	acquire(&pglock);
 	thisnode->next = basenode;
 	basenode = thisnode;
+	release(&pglock);
 }
 
 void *
@@ -48,12 +53,16 @@ allocpage(void)
 {
 	struct freelist *page;
 
+	acquire(&pglock);
 	if(basenode){
 		page = basenode;
 		basenode = basenode->next;
+		release(&pglock);
 
 		memset((char *)page, 0, PAGESIZE);
 		return (void *)page;
+	}else{
+		release(&pglock);
+		return NULL;
 	}
-	return NULL;
 }
