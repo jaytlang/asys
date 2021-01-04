@@ -4,6 +4,7 @@
 #include <hsys.h>
 
 #include "dat.h"
+#include "fns.h"
 
 struct freelist *basenode;
 
@@ -12,13 +13,16 @@ initpagealloc(void)
 {
 	char *p;
 
-	/* ekernel isn't necessarily page aligned */
-	p = (char *)(((unsigned long)ekernel + PAGESIZE - 1) & ~(PAGESIZE - 1));
+	/* ekernel isn't necessarily page aligned. Round up */
+	p = (char *)roundup((unsigned long)ekernel, PAGESIZE);
+
+	basenode = NULL;
 	uartwrite("Indexing system memory\n");
 	for(; p + PAGESIZE < (char *)MEMORY_TOP; p += PAGESIZE){
 		freepage((void *)p);
 	}
 }
+
 void
 freepage(void *page)
 {
@@ -44,9 +48,12 @@ allocpage(void)
 {
 	struct freelist *page;
 
-	page = basenode;
-	if(basenode) basenode = basenode->next;
+	if(basenode){
+		page = basenode;
+		basenode = basenode->next;
 
-	memset((char *)page, 0, PAGESIZE);
-	return (void *)page;
+		memset((char *)page, 0, PAGESIZE);
+		return (void *)page;
+	}
+	return NULL;
 }

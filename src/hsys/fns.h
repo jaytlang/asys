@@ -7,5 +7,6 @@
 extern void	llacquire(unsigned int *lock);
 extern void	llrelease(unsigned int *lock);
 extern void	llwfi(void);
+extern void	llsetsatp(unsigned long satp);
 
 #endif /* INC_HSYS_LOCK */

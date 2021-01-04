@@ -12,4 +12,13 @@ void	release(unsigned int *lock);
 /* Death */
 void	ultimateyeet(char *reason);
 
+/* Paging enable */
+void	installpgtbl(unsigned long *pgtbl);
+
+/* Addresses of hardware devices used
+ * for all sorts of various purposes,
+ * pluggable into devwrite/devread
+ */
+#define UART_ADDRESS 0x10000000
+
 #endif /* INC_KAPI_HSYS */
