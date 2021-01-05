@@ -5,7 +5,7 @@ RAM = 256M
 QEMU = qemu-system-riscv64
 QEMUFLAGS = -machine virt -bios none -kernel $(KERNEL)
 QEMUFLAGS += -m $(RAM) -smp $(CPUS) -nographic 
-QEMU_GDBFLAGS = -s -S
+QEMU_GDBFLAGS = -S -gdb tcp::9000
 
 GDB = riscv64-unknown-elf-gdb
 MAKEFLAGS = --no-print-directory --quiet
@@ -32,7 +32,7 @@ machine.dts: all
 .PHONY: sim-debug
 sim-debug: all
 	@echo "	QEMU	$(KERNEL)"
-	@echo "	Now make gdb and do: target remote localhost:1234"
+	@echo "	Now make gdb and do: target remote localhost:9000"
 	@$(QEMU) $(QEMUFLAGS) $(QEMU_GDBFLAGS)
 
 .PHONY: gdb

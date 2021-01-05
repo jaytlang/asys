@@ -20,5 +20,8 @@ main()
 	uartwrite("Enabling paging.\n");
 	installpgtbl(initialpgtbl);
 	uartwrite("Paging is ON! HELLO WORLD!\n");
+	uartwrite("For your information, I am hart ");
+	uartwritenum(hartid());
+	uartwrite("\n");
 	return 0xdeadbeef;
 }

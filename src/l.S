@@ -7,6 +7,7 @@
 _start:
 	csrr a0, mhartid
 	bnez a0, spin
+	mv tp, a0
 
 	/* Get ready for supervisor
 	 * mode, so we don't needa jump

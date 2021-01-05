@@ -13,7 +13,10 @@ void	release(unsigned int *lock);
 void	ultimateyeet(char *reason);
 
 /* Paging enable */
-void	installpgtbl(unsigned long *pgtbl);
+void    installpgtbl(unsigned long *pgtbl);
+
+/* Whomstdve am I? */
+unsigned long   hartid(void);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes,

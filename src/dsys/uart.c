@@ -34,10 +34,19 @@ uartwritenum(unsigned long num)
 
 	i = 0;
 
+	/* Make sure we can, like, write the
+	 * number zero bc that's important
+	 */
+	if(num == 0){
+		buf[i++] = '0';
+		goto bufrdy;
+	}
 	while(num > 0 && i < 20){
 		buf[i++] = num % 10 + '0';
 		num /= 10;
 	}
+
+bufrdy:
 	acquire(&uartlock);
 	for(j = i; j != 0; j--)
 		devwrite(UART_ADDRESS, UART_OFFSET_DATA, buf[j-1]);

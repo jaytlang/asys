@@ -31,3 +31,7 @@ llsetsatp:
 	sfence.vma zero, zero
 	ret
 
+.global llhartid
+llhartid:
+	mv a0, tp
+	ret
