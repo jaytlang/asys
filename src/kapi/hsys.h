@@ -18,9 +18,15 @@ void    installpgtbl(unsigned long *pgtbl);
 /* Whomstdve am I? */
 unsigned long   hartid(void);
 
+/* Enable/disable interrupts */
+#define INTRON 1L
+#define INTROFF 0L
+
+void    togglesintr(unsigned long on);
+
 /* Addresses of hardware devices used
- * for all sorts of various purposes,
- * pluggable into devwrite/devread
+ * for all sorts of various purposes.
+ * To be removed/deprecated.
  */
 #define UART_ADDRESS 0x10000000
 

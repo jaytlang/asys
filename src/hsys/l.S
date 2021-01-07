@@ -19,7 +19,7 @@ llrelease:
 	amoswap.w.rl x0, x0, (a0)
 	ret
 
-# WFI loop -- low power state
+# Register-granularity operations
 .global llwfi
 llwfi:
 	wfi
@@ -31,7 +31,38 @@ llsetsatp:
 	sfence.vma zero, zero
 	ret
 
+.global llsetsepc
+llsetsepc:
+	csrw sepc, a0
+	ret
+
+.global llsetsstatus
+llsetsstatus:
+	csrw sstatus, a0
+	ret
+
 .global llhartid
 llhartid:
 	mv a0, tp
+	ret
+
+.global llsieoff
+llsieoff:
+	csrr t0, sstatus
+	andi t0, t0, ~(1L << 1)
+	csrw sstatus, t0
+	ret
+
+.global llsieon
+llsieon:
+	csrr t0, sstatus
+	ori t0, t0, (1L << 1)
+	csrw sstatus, t0
+	ret
+
+.global llclearsip
+llclearsip:
+	csrr a0, sip
+	andi a0, a0, ~(1L << 1)
+	csrw sip, a0
 	ret
