@@ -7,6 +7,13 @@
 #include "fns.h"
 
 unsigned long *kpgtbl;
+char *utrap;
+
+void
+registerutrap(char *addr)
+{
+	utrap = addr;
+}
 
 /* Do a page table! HYPE 1000 */
 unsigned long *
@@ -40,6 +47,9 @@ setupkvm(void)
 
 		map(kpgtbl, this, this, PTER | PTEW);
 	}
+
+	/* Finally, map the u->k trampoline in */
+	map(kpgtbl, (char *)UTRAPVEC, utrap, PTER | PTEX);
 
 	/* kpgtbl is ready to install */
 	return kpgtbl;

@@ -16,6 +16,9 @@ extern char ekernel[];
 /* Start of the data section and the bss */
 extern char etext[];
 
+/* Trampoline page */
+extern char *trampoline;
+
 /* Physical allocator */
 struct freelist{
 	struct freelist *next;
@@ -45,5 +48,9 @@ extern unsigned long *kpgtbl;
 #define PTEX 1 << 3
 #define PTEU 1 << 4
 #define PTEFLAGBITS 10
+
+/* Memory mappings */
+#define UTRAPVEC MAXVA - PAGESIZE
+#define UTRAPFRM UTRAPVEC - PAGESIZE
 
 #endif /* INC_MSYS_DAT */
