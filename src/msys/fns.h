@@ -14,8 +14,11 @@ unsigned long	pteviaphys(char *phys);
 unsigned long * descendonce(unsigned long *pgtbl, char *va, unsigned int level);
 unsigned long *	pteforva(unsigned long *pgtbl, char *va);
 
-/* Page allocator */
+/* Page allocator private methods */
 void		initpagealloc(void);
+
+/* I'm the map! */
+void		map(unsigned long *pgtbl, char *va, char *pa, int perm);
 
 
 #endif /* INC_MSYS_FNS */

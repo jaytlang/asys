@@ -65,7 +65,13 @@ llutrap:
 
 .global lluret
 lluret:
-	/* lluret(trapframe, upgtbl) */
+	/* lluret(trapframe, upgtbl)
+	 * first restore upgtbl.
+	 * we can't do this inside the
+	 * kernel, else any code we try
+	 * to execute (e.g. this call)
+	 * will page fault instantly
+	 */
 	csrw satp, a1
 	sfence.vma zero, zero
 

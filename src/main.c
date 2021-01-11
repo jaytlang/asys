@@ -12,8 +12,6 @@ __attribute__((aligned(16))) char kstack[4096];
 int
 main()
 {
-	unsigned long *initialpgtbl;
-
 	uartinit();
 	uartwrite("asyskrn.exe version 0.1\n");
 
@@ -22,10 +20,10 @@ main()
 	uartwrite("done\n");
 
 	uartwrite("Mapping system memory...\n");
-	initialpgtbl = setupkvm();
+	setupkvm();
 
 	uartwrite("Enabling paging.\n");
-	installpgtbl(initialpgtbl);
+	installpgtbl(kpgtbl);
 	uartwrite("Paging is ON! HELLO WORLD!\n");
 
 	uartwrite("For your information, I am hart ");

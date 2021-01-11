@@ -16,9 +16,6 @@ extern char ekernel[];
 /* Start of the data section and the bss */
 extern char etext[];
 
-/* Trampoline page */
-extern char *trampoline;
-
 /* Physical allocator */
 struct freelist{
 	struct freelist *next;
@@ -29,13 +26,6 @@ extern unsigned int pglock;
 
 /* Page size */
 #define PAGESIZE 4096
-
-/* Kernel page table.
- * Unsigned long because it's
- * an array of PPN + flags values, which
- * are each 64-bit aligned (zero extend)
- */
-extern unsigned long *kpgtbl;
 
 /* Virtual addresses */
 #define VAOFFSETBITS 12

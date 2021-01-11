@@ -16,7 +16,7 @@ registerutrap(char *addr)
 }
 
 /* Do a page table! HYPE 1000 */
-unsigned long *
+void
 setupkvm(void)
 {
 	char *this;
@@ -48,9 +48,8 @@ setupkvm(void)
 		map(kpgtbl, this, this, PTER | PTEW);
 	}
 
-	/* Finally, map the u->k trampoline in */
+	/* Finally, map the u->k trampoline in at high memory */
 	map(kpgtbl, (char *)UTRAPVEC, utrap, PTER | PTEX);
 
 	/* kpgtbl is ready to install */
-	return kpgtbl;
 }
