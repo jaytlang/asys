@@ -1,7 +1,8 @@
-=== the sysA operating system ===
+=== the asys operating system ===
 
-A basic, bare-metal microkernel to
-demonstrate the basics of developing
-under RISC-V.
+A basic, bare-metal microkernel + distributed
+operating system. Locality-transparent, simple,
+sensible.
 
-Type make simulate.
+Type make sim.
+
