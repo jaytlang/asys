@@ -60,6 +60,13 @@ llsieon:
 	csrw sstatus, t0
 	ret
 
+.global llgetsie
+llgetsie:
+	csrr a0, sstatus
+	andi a0, a0, (1L << 1)
+	srli a0, a0, 1
+	ret
+
 .global llclearsip
 llclearsip:
 	csrr a0, sip

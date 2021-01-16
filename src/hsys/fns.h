@@ -16,6 +16,8 @@ extern void llsetsepc(unsigned long sepc);
 extern void llsieoff(void);
 extern void llsieon(void);
 
+extern unsigned long llgetsie(void);
+
 /* mhartid, aka mv a0, tp because who
  * needs thread local storage? NOT ME
  */

@@ -23,6 +23,7 @@ unsigned long   hartid(void);
 #define INTROFF 0L
 
 void    togglesintr(unsigned long on);
+unsigned long	getsintr(void);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes.

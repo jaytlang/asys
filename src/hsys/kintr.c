@@ -25,7 +25,7 @@ handledevintr(unsigned long scause)
          */
         uartwrite("Yo, we got a timer interrupt!\n");
         llclearsip();
-        return 0;
+    	return 0;
     }
 
     else{
@@ -49,7 +49,6 @@ ktrap(unsigned long sepc, unsigned long sstatus, unsigned long scause)
      */
     if((sstatus & SSTATUS_SIEMASK) != 0)
         ultimateyeet("Interrupts are still on, whomstdvent");
-    
     /* Process the interrupt */
     result = handledevintr(scause);
     if(result == -1)
@@ -69,3 +68,9 @@ togglesintr(unsigned long on)
     if(on > 0) llsieon();
     else llsieoff();
 }
+
+unsigned long
+getsintr(void)
+{
+    return llgetsie();
+}	
