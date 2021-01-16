@@ -4,7 +4,7 @@
 /* Trampoline page. Gets registered at
  * system startup, used in msys/psys.
  */
-extern char *		utrap;
+extern char *	utrap;
 void		registerutrap(char *addr);
 
 /* Kernel page table.
@@ -12,7 +12,7 @@ void		registerutrap(char *addr);
  * an array of PPN + flags values, which
  * are each 64-bit aligned (zero extend)
  */
-extern unsigned long * 	kpgtbl;
+extern unsigned long *kpgtbl;
 
 void		setupkvm(void);
 

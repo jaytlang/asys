@@ -6,7 +6,7 @@
 #include "fns.h"
 
 unsigned long *
-mkupgtbl(char *trapvec)
+mkupgtbl(char *trapframe)
 {
 	unsigned long *newpgtbl;
 
@@ -16,10 +16,10 @@ mkupgtbl(char *trapvec)
 	memset(newpgtbl, 0, PAGESIZE);
 
 	/* Initialize the user page table with the provided
-	 * trap vector...wtf is modularity
+	 * trap frame...wtf is modularity
 	 */
 	map(newpgtbl, (char *)UTRAPVEC, utrap, PTER | PTEX);	
-	map(newpgtbl, (char *)UTRAPFRM, trapvec, PTER | PTEW);
+	map(newpgtbl, (char *)UTRAPFRM, trapframe, PTER | PTEW);
 
 	return newpgtbl;
 }

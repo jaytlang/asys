@@ -44,9 +44,9 @@ mkproc(void)
 	if(!newproc->trapframe) goto oompanic;
 	memset(newproc->trapframe, 0, sizeof(struct trapframe));
 
-	/* This could be globalized */
-	newproc->trapframe->kpgtbl = kpgtbl;
 	/* TODO: newproc->trapframe->stg2 = trap handler */
+
+	newproc->upgtbl = mkupgtbl((char *)(newproc->trapframe));
 
 	/* Set the scheduler context to run: TODO */
 	/* newproc->pkcontext.ra = retfxn */
