@@ -24,6 +24,7 @@ unsigned long   hartid(void);
 
 void    togglesintr(unsigned long on);
 unsigned long	getsintr(void);
+unsigned long 	locksheld(void);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes.

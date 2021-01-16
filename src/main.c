@@ -38,6 +38,10 @@ main()
 	procinitwith(kstack);
 	uartwrite("done\n");
 
+	uartwrite("Locks currently held: ");
+	uartwritenum(locksheld());
+	uartwrite("\n");
+
 	for(;;);
 	return 0xdeadbeef;
 }
