@@ -5,8 +5,6 @@
 #include <lsys.h>
 #include <psys.h>
 
-char *globalkstack;
-
 struct proc *proclist;
 struct proc *currentproc;
 
@@ -15,9 +13,8 @@ unsigned int pidlock;
 unsigned int proclistlock;
 
 void
-procinitwith(char *kstack)
+procinit(void)
 {
-	globalkstack = kstack;
 	pidlock = 0;
 	proclistlock = 0;
 	toppid = 0;
