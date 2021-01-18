@@ -12,8 +12,6 @@ mkproc(void)
 	struct proc *newproc;
 
 	if(!proclist){
-		proclistlock = 0;
-		acquire(&proclistlock);
 		newproc = proclist = allocpage();
 		if(!newproc) goto oompanic;
 		newproc->next = NULL;
@@ -28,7 +26,6 @@ mkproc(void)
 
 	memset(newproc, 0, sizeof(struct proc));
 	acquire(&newproc->lock);
-	release(&proclistlock);
 
 	newproc->pstate = RUNNABLE;
 

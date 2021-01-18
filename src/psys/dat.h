@@ -18,7 +18,7 @@ struct kcontext{
 	unsigned long s11;
 };
 
-extern struct kcontext globalcontext;
+extern struct kcontext *globalcontext;
 
 struct trapframe{
 	unsigned long *stg2;
@@ -90,7 +90,6 @@ struct proc{
 };
 
 extern struct proc *proclist;
-unsigned int proclistlock;
 extern struct proc *currentproc;
 
 extern char *globalkstack;

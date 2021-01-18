@@ -1,14 +1,19 @@
 #include <psys.h>
 #include <hsys.h>
-#include <dsys.h>
 
 #include "dat.h"
 #include "fns.h"
 
-
+/* hi i'm a coroutine (: */
 void
 yield(void)
 {
+	/* This will hit an S register upon the context
+	 * switch thanks to the function call, so we can
+	 * get it, call the switcheroo, and then restore.
+	 */
+	unsigned long myoldintrstate;
+
 	/* Enter the global context, which throws
 	 * into the infinite schedule loop of sad
 	 * which never returns. We need to make
@@ -27,8 +32,10 @@ yield(void)
 	 * Never hurts to check.
 	 */
 	if(getsintr() == INTRON)
-		ultimateyeet("Whymst is the scheduler interruptible?");
+		ultimateyeet("We hold a lock, don't be interruptible :(");
 	
-	
-	
+	/* change da world, my final message, goodbye */
+	myoldintrstate = getoldintrstate();	
+	llcontextswitch(&currentproc->pkcontext, globalcontext);
+	setoldintrstate(myoldintrstate);
 }

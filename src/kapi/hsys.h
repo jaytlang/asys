@@ -26,9 +26,10 @@ unsigned long   hartid(void);
 void    togglesintr(unsigned long on);
 unsigned long	getsintr(void);
 
-/* More interrupt stuff */
+/* Kernel threads */
 unsigned long	getoldintrstate(void);
 void 		setoldintrstate(unsigned long newstate);
+void		llcontextswitch(void *old, void *new);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes.
