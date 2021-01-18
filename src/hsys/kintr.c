@@ -4,6 +4,40 @@
 #include "dat.h"
 #include "fns.h"
 
+/* OK so basically. This is a property specific
+ * to a given kernel context (including the global
+ * context). When we acquire, we turn off interrupts
+ * to avoid issues with spinlocks (see the commit log,
+ * i think i explain it there). eventually, when we
+ * release everything, we flip interrupts back to
+ * how they were before the first acquire.
+ *
+ * Because this is specific to a given kernel context,
+ * we need to accurately update it when we are switching
+ * contexts. This is especially pertinent bc we hold the
+ * lock on the process when we jump to the scheduler, to
+ * prevent anything weird from happening and to match state
+ * with how we entered: the scheduler acquires the process lock
+ * to do stuff before it enters and never releases.
+ *
+ * When we perform a context switch, we can /get/
+ * this and save it in a variable, then when we return pop
+ * it off and restore it here. 
+ */
+unsigned long oldintrstate = INTROFF;
+
+unsigned long
+getoldintrstate(void)
+{
+	return oldintrstate;
+}
+
+void
+setoldintrstate(unsigned long newstate)
+{
+	oldintrstate = newstate;
+}
+
 int
 handledevintr(unsigned long scause)
 {

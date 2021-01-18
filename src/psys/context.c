@@ -15,9 +15,20 @@ yield(void)
 	 * sure of a few different things first.
 	 */
 	if(!currentproc) ultimateyeet("yield: already in globalcontext");
-	if(currentproc->lock == 0) ultimateyeet("yield: have to hold proc lock");
+	if((currentproc->lock == 0) || (locksheld() != 1))
+		ultimateyeet("yield: have to hold proc lock");
 	if(currentproc->pstate == RUNNING)
 		ultimateyeet("Boi why is you running in yield");
-
-	/* TODO */
+	
+	/* Interrupts could break this, since this procs after a
+	 * timer interrupt anyway. Could get us stuck or in a weird
+	 * situation we aren't ready for, so exclude the possibility.
+	 * Then again, we hold a lock, so interrupts should be off anyway.
+	 * Never hurts to check.
+	 */
+	if(getsintr() == INTRON)
+		ultimateyeet("Whymst is the scheduler interruptible?");
+	
+	
+	
 }

@@ -23,6 +23,9 @@ struct tinfo{
 
 extern struct tinfo timerscratch;
 
+/* See hsys/spinlock.c */
+extern unsigned long oldintrstate;
+
 #define CLINT 0x2000000L
 #define MTIME CLINT + 0xBFF8
 #define MTIMECMP CLINT + 0x4000

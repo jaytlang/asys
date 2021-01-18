@@ -8,6 +8,7 @@ char	devread(unsigned long address, unsigned int offset);
 /* Spinlocks */
 void	acquire(unsigned int *lock);
 void	release(unsigned int *lock);
+unsigned long 	locksheld(void);
 
 /* Death */
 void	ultimateyeet(char *reason);
@@ -24,7 +25,10 @@ unsigned long   hartid(void);
 
 void    togglesintr(unsigned long on);
 unsigned long	getsintr(void);
-unsigned long 	locksheld(void);
+
+/* More interrupt stuff */
+unsigned long	getoldintrstate(void);
+void 		setoldintrstate(unsigned long newstate);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes.

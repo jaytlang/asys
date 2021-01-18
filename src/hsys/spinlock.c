@@ -5,7 +5,6 @@
 #include "fns.h"
 
 unsigned long lockcnt = 0;
-unsigned long oldintrstate = INTROFF;
 
 void
 acquire(unsigned int *lock)
