@@ -1,7 +1,7 @@
-#include <hsys.h>
-#include <dsys.h>
-
 #include "uart.h"
+
+#include <dsys.h>
+#include <hsys.h>
 
 /* Back when men were men, and wrote their own device drivers... */
 unsigned int uartlock = 0;
@@ -29,7 +29,7 @@ uartwrite(char *c)
 void
 uartwritenum(unsigned long num)
 {
-	char buf[20];	/* max 64 bit number has 20 digits */
+	char buf[20]; /* max 64 bit number has 20 digits */
 	unsigned int i, j;
 
 	i = 0;
@@ -49,6 +49,6 @@ uartwritenum(unsigned long num)
 bufrdy:
 	acquire(&uartlock);
 	for(j = i; j != 0; j--)
-		devwrite(UART_ADDRESS, UART_OFFSET_DATA, buf[j-1]);
+		devwrite(UART_ADDRESS, UART_OFFSET_DATA, buf[j - 1]);
 	release(&uartlock);
 }

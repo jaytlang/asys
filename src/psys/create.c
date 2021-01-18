@@ -1,10 +1,10 @@
-#include <lsys.h>
-#include <psys.h>
-#include <msys.h>
-#include <hsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <hsys.h>
+#include <lsys.h>
+#include <msys.h>
+#include <psys.h>
 
 struct proc *
 mkproc(void)
@@ -15,8 +15,7 @@ mkproc(void)
 		newproc = proclist = allocpage();
 		if(!newproc) goto oompanic;
 		newproc->next = NULL;
-	}
-	else{
+	}else{
 		newproc = allocpage();
 		if(!newproc) goto oompanic;
 
@@ -34,7 +33,7 @@ mkproc(void)
 	memset(newproc->msgbuf, 0, MSGBUFSZ);
 
 	newproc->msgcondition = NOCONDITION;
-	
+
 	newproc->pid = newpid();
 
 	newproc->trapframe = allocpage();
@@ -53,5 +52,3 @@ oompanic:
 	ultimateyeet("Out of memory!");
 	return NULL;
 }
-
-	

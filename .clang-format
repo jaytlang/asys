@@ -1,0 +1,52 @@
+BasedOnStyle: LLVM
+IndentWidth: 8
+
+# No dedicated C option but close enough
+Language: Cpp
+
+# Force pointers to the left
+DerivePointerAlignment: false
+PointerAlignment: Right
+
+# Linux-like column limit
+ColumnLimit: 80
+
+# Some niceties
+AlignEscapedNewlines: Left
+AlignConsecutiveMacros: true
+BreakStringLiterals: true
+
+# Short things
+AllowShortLoopsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: Always
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: true
+
+# Linux-like brace breaks
+AlwaysBreakAfterReturnType: AllDefinitions
+BreakBeforeBraces: Linux
+
+# Include organization
+SortIncludes: true
+IncludeBlocks: Regroup
+
+# Some indents
+IndentCaseLabels: false
+IndentGotoLabels: false
+IndentPPDirectives: None
+
+# SPACES
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: Never
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpacesInCStyleCastParentheses: false
+SpacesInConditionalStatement: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# Tabs: always use
+UseCRLF: false
+UseTab: AlignWithSpaces

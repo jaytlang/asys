@@ -2,34 +2,34 @@
 #define INC_KAPI_HSYS
 
 /* Peripheral I/O */
-void	devwrite(unsigned long address, unsigned int offset, char value);
-char	devread(unsigned long address, unsigned int offset);
+void devwrite(unsigned long address, unsigned int offset, char value);
+char devread(unsigned long address, unsigned int offset);
 
 /* Spinlocks */
-void	acquire(unsigned int *lock);
-void	release(unsigned int *lock);
-unsigned long 	locksheld(void);
+void acquire(unsigned int *lock);
+void release(unsigned int *lock);
+unsigned long locksheld(void);
 
 /* Death */
-void	ultimateyeet(char *reason);
+void ultimateyeet(char *reason);
 
 /* Paging enable */
-void    installpgtbl(unsigned long *pgtbl);
+void installpgtbl(unsigned long *pgtbl);
 
 /* Whomstdve am I? */
-unsigned long   hartid(void);
+unsigned long hartid(void);
 
 /* Enable/disable interrupts */
-#define INTRON 1L
+#define INTRON  1L
 #define INTROFF 0L
 
-void    togglesintr(unsigned long on);
-unsigned long	getsintr(void);
+void togglesintr(unsigned long on);
+unsigned long getsintr(void);
 
 /* Kernel threads */
-unsigned long	getoldintrstate(void);
-void 		setoldintrstate(unsigned long newstate);
-void		llcontextswitch(void *old, void *new);
+unsigned long getoldintrstate(void);
+void setoldintrstate(unsigned long newstate);
+void llcontextswitch(void *old, void *new);
 
 /* Addresses of hardware devices used
  * for all sorts of various purposes.

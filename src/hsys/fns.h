@@ -24,12 +24,11 @@ extern unsigned long llgetsie(void);
 extern unsigned long llhartid(void);
 
 /* Interrupt handling */
-int         handledevintr(unsigned long scause);
+int handledevintr(unsigned long scause);
 
 /* llclearsip: Basically just clear
  * the software interrupt bit in sip
  */
 extern void llclearsip(void);
-
 
 #endif /* INC_HSYS_FNS */

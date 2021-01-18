@@ -1,10 +1,10 @@
-#include <msys.h>
-#include <lsys.h>
-#include <dsys.h>
-#include <hsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <dsys.h>
+#include <hsys.h>
+#include <lsys.h>
+#include <msys.h>
 
 struct freelist *basenode;
 unsigned int pglock = 0;

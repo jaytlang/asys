@@ -1,9 +1,9 @@
-#include <psys.h>
-#include <lsys.h>
-#include <hsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <hsys.h>
+#include <lsys.h>
+#include <psys.h>
 
 /* the os scheduler, in its glory
  * "jay, you really could do better than this"

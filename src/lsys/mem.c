@@ -7,8 +7,7 @@ memset(void *region, char byte, unsigned int count)
 	unsigned int i;
 
 	byteptr = (char *)region;
-	for(i = 0; i < count; i++)
-		byteptr[i] = byte;
+	for(i = 0; i < count; i++) byteptr[i] = byte;
 
 	/* why? */
 	return region;

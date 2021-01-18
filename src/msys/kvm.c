@@ -1,10 +1,10 @@
-#include <msys.h>
-#include <hsys.h>
-#include <lsys.h>
-#include <dsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <dsys.h>
+#include <hsys.h>
+#include <lsys.h>
+#include <msys.h>
 
 unsigned long *kpgtbl;
 char *utrap;

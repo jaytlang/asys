@@ -4,9 +4,8 @@
 unsigned long
 indexfromva(char *va, unsigned int level)
 {
-	return (((unsigned long)va >> VAOFFSETBITS
-		        >> (VALEVELBITS * level))
-			& 0x1ff);	
+	return (((unsigned long)va >> VAOFFSETBITS >> (VALEVELBITS * level)) &
+	        0x1ff);
 }
 
 char *

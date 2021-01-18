@@ -1,6 +1,6 @@
-#include <hsys.h>
-
 #include "fns.h"
+
+#include <hsys.h>
 
 void
 installpgtbl(unsigned long *pgtbl)

@@ -57,14 +57,9 @@ struct trapframe{
 	unsigned long t6;
 };
 
+enum procstate{ RUNNING, RUNNABLE, SLEEPING };
 
-enum procstate{
-	RUNNING,
-	RUNNABLE,
-	SLEEPING
-};
-
-#define MSGBUFSZ 4096
+#define MSGBUFSZ    4096
 #define NOCONDITION 0
 
 struct proc{
@@ -72,7 +67,7 @@ struct proc{
 
 	enum procstate pstate;
 
-	char *msgbuf;		/* One page */
+	char *msgbuf; /* One page */
 	unsigned long in;
 	unsigned long out;
 	unsigned long msgcondition;
@@ -80,11 +75,11 @@ struct proc{
 	unsigned int killswitch;
 	unsigned long pid;
 
-	unsigned long *upgtbl;	/* Obviously a page but separate */
+	unsigned long *upgtbl; /* Obviously a page but separate */
 	unsigned long memsize;
 
-	struct kcontext pkcontext;	/* Inline */
-	struct trapframe *trapframe;	/* A page */
+	struct kcontext pkcontext;   /* Inline */
+	struct trapframe *trapframe; /* A page */
 
 	struct proc *next;
 };

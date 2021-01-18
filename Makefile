@@ -44,3 +44,11 @@ gdb: all
 clean:
 	@$(MAKE) -C src/ clean
 	@echo "	CLEAN	ALL"
+
+.PHONY: format
+format:
+	@echo "	FORMAT	.clang-format"
+	@find . -iname *.h -o -iname *.c | xargs clang-format -i	
+	@find . -iname *.h -o -iname *.c | xargs sed -i 's/\ {/{/'
+	@find . -iname *.h -o -iname *.c | xargs sed -i 's/}\ /}/'
+

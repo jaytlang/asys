@@ -36,3 +36,7 @@ via your system's package manager pretty easily. Once
 that's done, type `make sim` and you're off and running --
 along with any other top-level makefile you command you want to.
 
+One more thing! I welcome contributions. Run `make format` before
+you commit on your branch (I'll make this a pre-commit hook
+eventually) and then send me a patch!
+

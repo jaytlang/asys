@@ -1,9 +1,9 @@
-#include <msys.h>
-#include <lsys.h>
-#include <hsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <hsys.h>
+#include <lsys.h>
+#include <msys.h>
 
 void
 map(unsigned long *pgtbl, char *va, char *pa, int perm)
@@ -17,12 +17,11 @@ map(unsigned long *pgtbl, char *va, char *pa, int perm)
 
 	thispgtbl = pgtbl;
 	for(level = 2; level > 0; level--){
-		nextpgtbl = descendonce(thispgtbl, va, level);	
+		nextpgtbl = descendonce(thispgtbl, va, level);
 		if(!nextpgtbl){
 			/* Make a new pgtbl */
 			nextpgtbl = (unsigned long *)allocpage();
-			if(!nextpgtbl)
-				ultimateyeet("Out of memory!");
+			if(!nextpgtbl) ultimateyeet("Out of memory!");
 			memset(nextpgtbl, 0, PAGESIZE);
 
 			/* Point at it from the last one */
@@ -37,8 +36,7 @@ map(unsigned long *pgtbl, char *va, char *pa, int perm)
 	 * why the OS shouldn't be written in Rust...
 	 */
 	pte = &thispgtbl[indexfromva(va, 0)];
-	if(*pte & PTEV)
-		ultimateyeet("map: tried to double map VA");
+	if(*pte & PTEV) ultimateyeet("map: tried to double map VA");
 
 	/* Fill out the clear PTE */
 	*pte = pteviaphys(pa) | perm | PTEV;

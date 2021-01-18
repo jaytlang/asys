@@ -1,10 +1,10 @@
-#include <dsys.h>
-#include <msys.h>
-#include <hsys.h>
-#include <psys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <dsys.h>
+#include <hsys.h>
+#include <msys.h>
+#include <psys.h>
 
 /* Kernel stack for the first hart */
 __attribute__((aligned(16))) char kstack[4096];
@@ -42,6 +42,7 @@ main()
 	uartwritenum(locksheld());
 	uartwrite("\n");
 
-	for(;;);
+	for(;;)
+		;
 	return 0xdeadbeef;
 }

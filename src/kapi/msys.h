@@ -4,8 +4,8 @@
 /* Trampoline page. Gets registered at
  * system startup, used in msys/psys.
  */
-extern char *	utrap;
-void		registerutrap(char *addr);
+extern char *utrap;
+void registerutrap(char *addr);
 
 /* Kernel page table.
  * Unsigned long because it's
@@ -14,13 +14,13 @@ void		registerutrap(char *addr);
  */
 extern unsigned long *kpgtbl;
 
-void		setupkvm(void);
+void setupkvm(void);
 
 /* Page allocator */
-void		*allocpage(void);
-void		freepage(void *page);
+void *allocpage(void);
+void freepage(void *page);
 
 /* User page table */
-unsigned long * mkupgtbl(char *trapframe);
+unsigned long *mkupgtbl(char *trapframe);
 
 #endif /* INC_KAPI_MSYS */

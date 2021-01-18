@@ -1,8 +1,8 @@
-#include <psys.h>
-#include <hsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <hsys.h>
+#include <psys.h>
 
 /* hi i'm a coroutine (: */
 void
@@ -24,7 +24,7 @@ yield(void)
 		ultimateyeet("yield: have to hold proc lock");
 	if(currentproc->pstate == RUNNING)
 		ultimateyeet("Boi why is you running in yield");
-	
+
 	/* Interrupts could break this, since this procs after a
 	 * timer interrupt anyway. Could get us stuck or in a weird
 	 * situation we aren't ready for, so exclude the possibility.
@@ -33,9 +33,9 @@ yield(void)
 	 */
 	if(getsintr() == INTRON)
 		ultimateyeet("We hold a lock, don't be interruptible :(");
-	
+
 	/* change da world, my final message, goodbye */
-	myoldintrstate = getoldintrstate();	
+	myoldintrstate = getoldintrstate();
 	llcontextswitch(&currentproc->pkcontext, globalcontext);
 	setoldintrstate(myoldintrstate);
 }

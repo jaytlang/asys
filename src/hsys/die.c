@@ -1,6 +1,7 @@
+#include "fns.h"
+
 #include <dsys.h>
 #include <lsys.h>
-#include "fns.h"
 
 /* Big and ultimate sad */
 void

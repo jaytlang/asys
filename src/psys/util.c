@@ -1,9 +1,9 @@
-#include <lsys.h>
-#include <hsys.h>
-#include <psys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <hsys.h>
+#include <lsys.h>
+#include <psys.h>
 
 char *globalkstack;
 
@@ -18,7 +18,7 @@ procinitwith(char *kstack)
 {
 	globalkstack = kstack;
 	pidlock = 0;
-	toppid = 0; 
+	toppid = 0;
 
 	proclist = NULL;
 	currentproc = NULL;
@@ -36,4 +36,3 @@ newpid(void)
 
 	return newpid;
 }
-	

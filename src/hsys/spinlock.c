@@ -1,8 +1,8 @@
-#include <hsys.h>
-#include <dsys.h>
-
 #include "dat.h"
 #include "fns.h"
+
+#include <dsys.h>
+#include <hsys.h>
 
 unsigned long lockcnt = 0;
 
@@ -21,8 +21,7 @@ acquire(unsigned int *lock)
 void
 release(unsigned int *lock)
 {
-	if(lockcnt == 0)
-		ultimateyeet("lockcnt is asymmetric somehow");
+	if(lockcnt == 0) ultimateyeet("lockcnt is asymmetric somehow");
 	if(getsintr() == INTRON)
 		ultimateyeet("interrupts are on with locks held");
 

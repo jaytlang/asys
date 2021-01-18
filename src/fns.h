@@ -5,7 +5,6 @@
 #ifndef INC_JSYSKRN_FNS
 #define INC_JSYSKRN_FNS
 
-int	main();
+int main();
 
 #endif /* INC_JSYSKRN_FNS */
-
