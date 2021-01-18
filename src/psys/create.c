@@ -40,7 +40,8 @@ mkproc(void)
 	if(!newproc->trapframe) goto oompanic;
 	memset(newproc->trapframe, 0, sizeof(struct trapframe));
 
-	/* TODO: newproc->trapframe->stg2 = trap handler */
+	/* This is the most wild typecast ever (prototype from kapi/hsys.h) */
+	newproc->trapframe->stg2 = utrap;
 
 	newproc->upgtbl = mkupgtbl((char *)(newproc->trapframe));
 

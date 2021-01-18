@@ -21,7 +21,8 @@ struct kcontext{
 extern struct kcontext *globalcontext;
 
 struct trapframe{
-	unsigned long *stg2;
+	void (*stg2)(unsigned long, unsigned long,
+	             void (*ret)(unsigned long *, void *));
 
 	unsigned long epc;
 

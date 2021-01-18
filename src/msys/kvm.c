@@ -7,12 +7,12 @@
 #include <msys.h>
 
 unsigned long *kpgtbl;
-char *utrap;
+char *utrapaddr;
 
 void
 registerutrap(char *addr)
 {
-	utrap = addr;
+	utrapaddr = addr;
 }
 
 /* Do a page table! HYPE 1000 */
@@ -49,7 +49,7 @@ setupkvm(void)
 	}
 
 	/* Finally, map the u->k trampoline in at high memory */
-	map(kpgtbl, (char *)UTRAPVEC, utrap, PTER | PTEX);
+	map(kpgtbl, (char *)UTRAPVEC, utrapaddr, PTER | PTEX);
 
 	/* kpgtbl is ready to install */
 }

@@ -17,7 +17,7 @@ mkupgtbl(char *trapframe)
 	/* Initialize the user page table with the provided
 	 * trap frame...wtf is modularity
 	 */
-	map(newpgtbl, (char *)UTRAPVEC, utrap, PTER | PTEX);
+	map(newpgtbl, (char *)UTRAPVEC, utrapaddr, PTER | PTEX);
 	map(newpgtbl, (char *)UTRAPFRM, trapframe, PTER | PTEW);
 
 	return newpgtbl;

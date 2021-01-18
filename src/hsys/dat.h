@@ -30,4 +30,8 @@ extern unsigned long oldintrstate;
 #define MTIME         CLINT + 0xBFF8
 #define MTIMECMP      CLINT + 0x4000
 #define TIMERINTERVAL 10000000L
+
+/* Interrupt types */
+#define DEVINTR_TIMER 0
+
 #endif /* INC_HSYS_DAT */

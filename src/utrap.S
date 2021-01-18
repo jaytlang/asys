@@ -44,13 +44,13 @@ llutrap:
 	sd t5, 240(a0)
 	sd t6, 248(a0)
 
-	/* context saved. les go!
-	 * fresh entry into the kernel
-	 * -> start at the top of the stack
-	 */
 	csrr t0, sscratch
 	sd t0, 40(a0)
-	
+
+	csrr t0, sepc
+	sd t0, 8(a0)
+
+	/* Let's go! Stack first */
 	la sp, kstack
 	li t0, 4096
 	add sp, sp, t0
@@ -61,20 +61,51 @@ llutrap:
 	sfence.vma zero, zero
 
 	ld t0, 0(a0)
+
+	/* we have entered kernel mode formally.
+	 * set the interrupt vector in case we get
+	 * hit later
+	 */
+	la t0, llstrap
+	csrw stvec, t0
+
+	/* ready to make the jump. load in relevant values
+	 * before we hit utrap
+	 */
+	csrr a0, sstatus
+	csrr a1, scause
+	la a2, lluret
 	jr t0
 
 .global lluret
 lluret:
-	/* lluret(trapframe, upgtbl)
+	/* lluret(upgtbl, tf)
 	 * first restore upgtbl.
 	 * we can't do this inside the
 	 * kernel, else any code we try
 	 * to execute (e.g. this call)
 	 * will page fault instantly
 	 */
-	csrw satp, a1
-	sfence.vma zero, zero
+	call installpgtbl
 
+	/* restore sstatus to usermode w/ interrupts */
+	csrr t0, sstatus
+	andi t0, t0, ~(1L << 8)
+	ori t0, t0, (1L << 5)
+	csrw sstatus, t0
+
+	/* write stvec to utrap */
+	la t0, llutrap
+	csrw stvec, t0
+
+	/* restore sepc */
+	ld t0, 8(a1)
+	csrw sepc, t0
+
+	/* trash a0 now that we're done
+	 * and start restoration
+	 */
+	mv a0, a1
 	ld t0, 48(a0)
 	csrw sscratch, t0
 

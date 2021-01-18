@@ -4,7 +4,7 @@
 /* Trampoline page. Gets registered at
  * system startup, used in msys/psys.
  */
-extern char *utrap;
+extern char *utrapaddr;
 void registerutrap(char *addr);
 
 /* Kernel page table.

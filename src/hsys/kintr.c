@@ -59,7 +59,7 @@ handledevintr(unsigned long scause)
 		 */
 		uartwrite("Yo, we got a timer interrupt!\n");
 		llclearsip();
-		return 0;
+		return DEVINTR_TIMER;
 	}
 
 	else{
