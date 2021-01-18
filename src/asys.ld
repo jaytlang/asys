@@ -6,10 +6,12 @@ SECTIONS {
 
 	.text : {
 		*(.text.init)
-		*(.text .text.*)
+		*(.text .text.startup)
 		. = ALIGN(0x1000);
-		*(.text.utrap .text.utrap.*)
+		_kernjump = .;
+		*(.text.utrap)
 		. = ALIGN(0x1000);
+		ASSERT(. - _kernjump == 0x1000, "utrap is too thicc");
 		PROVIDE(etext = .);
 	}
 

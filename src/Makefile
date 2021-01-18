@@ -8,6 +8,7 @@ DEP = $(OBJ:.o=.d)
 ADEP = $(AOBJ:.o=.d)
 
 TARGET = asyskrn.exe
+MAP = asyskrn.map
 LDSCRIPT = asys.ld
 
 DSYS = dsys/dsys.a
@@ -23,7 +24,7 @@ export AR = riscv64-unknown-elf-ar
 
 export CFLAGS = -O2 -g -Wall -pedantic -ansi -MD -Wextra -Werror -ffreestanding
 export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
-export LDFLAGS = -nostdlib -T$(LDSCRIPT)
+export LDFLAGS = -nostdlib -T$(LDSCRIPT) -Map=$(MAP)
 export ARFLAGS = rcs
 
 $(TARGET): $(OBJ) $(AOBJ) $(MSYS) $(DSYS) $(LSYS) $(HSYS) $(PSYS)
@@ -47,7 +48,7 @@ $(DSYS) $(HSYS) $(LSYS) $(MSYS) $(PSYS):
 .PHONY: clean
 clean: clean-hsys clean-dsys clean-lsys clean-msys clean-psys
 	@echo "	CLEAN	$(TARGET)"
-	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET)
+	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET) $(MAP)
 
 .PHONY: clean-hsys clean-dsys clean-lsys clean-msys clean-psys
 clean-hsys clean-dsys clean-lsys clean-msys clean-psys:

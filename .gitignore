@@ -2,4 +2,5 @@
 *.d
 *.exe
 *.a
+*.map
 env
