@@ -87,6 +87,7 @@ struct proc{
 
 extern struct proc *proclist;
 extern struct proc *currentproc;
+extern unsigned int proclistlock;
 
 extern char *globalkstack;
 

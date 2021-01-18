@@ -12,12 +12,14 @@ struct proc *currentproc;
 
 unsigned long toppid;
 unsigned int pidlock;
+unsigned int proclistlock;
 
 void
 procinitwith(char *kstack)
 {
 	globalkstack = kstack;
 	pidlock = 0;
+	proclistlock = 0;
 	toppid = 0;
 
 	proclist = NULL;

@@ -11,6 +11,8 @@ mkproc(void)
 {
 	struct proc *newproc;
 
+	acquire(&proclistlock);
+
 	if(!proclist){
 		newproc = proclist = allocpage();
 		if(!newproc) goto oompanic;
@@ -25,6 +27,8 @@ mkproc(void)
 
 	memset(newproc, 0, sizeof(struct proc));
 	acquire(&newproc->lock);
+	newproc->pid = newpid();
+	release(&proclistlock);
 
 	newproc->pstate = RUNNABLE;
 
@@ -33,8 +37,6 @@ mkproc(void)
 	memset(newproc->msgbuf, 0, MSGBUFSZ);
 
 	newproc->msgcondition = NOCONDITION;
-
-	newproc->pid = newpid();
 
 	newproc->trapframe = allocpage();
 	if(!newproc->trapframe) goto oompanic;
