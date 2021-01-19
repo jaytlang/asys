@@ -24,9 +24,6 @@ struct freelist{
 extern struct freelist *basenode;
 extern unsigned int pglock;
 
-/* Page size */
-#define PAGESIZE 4096
-
 /* Virtual addresses */
 #define VAOFFSETBITS 12
 #define VALEVELBITS  9

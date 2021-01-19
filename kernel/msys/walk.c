@@ -46,3 +46,18 @@ pteforva(unsigned long *pgtbl, char *va)
 
 	return &nextpgtbl[indexfromva(va, 0)];
 }
+
+unsigned long *
+translateva(unsigned long *pgtbl, char *va)
+{
+	unsigned long *nextpgtbl;
+	int level;
+
+	nextpgtbl = pgtbl;
+	for(level = 2; level >= 0; level--){
+		nextpgtbl = descendonce(nextpgtbl, va, level);
+		if(!nextpgtbl) return NULL;
+	}
+
+	return nextpgtbl;
+}

@@ -12,3 +12,16 @@ memset(void *region, char byte, unsigned int count)
 	/* why? */
 	return region;
 }
+
+void *
+memcpy(void *dest, void *src, unsigned int count)
+{
+	char *s, *d;
+	unsigned int i;
+
+	s = src;
+	d = dest;
+	for(i = 0; i < count; i++) *d++ = *s++;
+
+	return dest;
+}

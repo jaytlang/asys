@@ -43,6 +43,8 @@ mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
 	if(mtype == MEMTYPE_DATA) perm = PTER | PTEW | PTEU;
 	else if(mtype == MEMTYPE_CODE)
 		perm = PTER | PTEX | PTEU;
+	else if(mtype == MEMTYPE_GUARD)
+		perm = PTER | PTEW;
 	else{
 		ultimateyeet("moreuserpages: bad mtype");
 		return;

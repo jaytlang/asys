@@ -11,4 +11,9 @@ unsigned long *exportupgtbl(void);
 /* Internal scheduler entry */
 void yield(void);
 
+/* Process creation! */
+unsigned long srun(unsigned long entrypt, unsigned long start,
+                   unsigned long end, char *name);
+void scheduler(void);
+
 #endif /* INC_KAPI_PSYS */

@@ -25,7 +25,15 @@ unsigned long *mkupgtbl(char *trapframe);
 void mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
                  int mtype);
 
-#define MEMTYPE_DATA 1
-#define MEMTYPE_CODE 0
+/* Diet paging */
+unsigned long *translateva(unsigned long *pgtbl, char *va);
+
+/* Page size */
+#define PAGESIZE 4096
+
+/* User page table utilities */
+#define MEMTYPE_GUARD 2
+#define MEMTYPE_DATA  1
+#define MEMTYPE_CODE  0
 
 #endif /* INC_KAPI_MSYS */

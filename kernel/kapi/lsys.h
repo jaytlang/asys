@@ -5,6 +5,7 @@
  * just useful for strcpy, memset, etc.
  */
 void *memset(void *region, char byte, unsigned int count);
+void *memcpy(void *dest, void *src, unsigned int count);
 
 unsigned long roundup(unsigned long input, unsigned long roundto);
 unsigned long rounddown(unsigned long input, unsigned long roundto);
