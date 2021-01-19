@@ -22,5 +22,10 @@ void freepage(void *page);
 
 /* User page table */
 unsigned long *mkupgtbl(char *trapframe);
+void mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
+                 int mtype);
+
+#define MEMTYPE_DATA 1
+#define MEMTYPE_CODE 0
 
 #endif /* INC_KAPI_MSYS */
