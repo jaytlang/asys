@@ -26,8 +26,6 @@ extern unsigned long llhartid(void);
 /* Interrupt handling */
 int handledevintr(unsigned long scause);
 
-void gotouser(void (*ret)(unsigned long *, void *));
-
 /* llclearsip: Basically just clear
  * the software interrupt bit in sip
  */

@@ -1,4 +1,4 @@
-KERNEL = src/asyskrn.exe
+KERNEL = kernel/asyskrn.exe
 CPUS = 4
 RAM = 256M
 
@@ -12,10 +12,10 @@ MAKEFLAGS = --no-print-directory --quiet
 
 .PHONY: all
 all:
-	@$(MAKE) -C src/
+	@$(MAKE) -C kernel/
 
 $(KERNEL):
-	@$(MAKE) -C src/
+	@$(MAKE) -C kernel/
 
 .PHONY: sim
 sim: all
@@ -42,7 +42,7 @@ gdb: all
 
 .PHONY: clean
 clean:
-	@$(MAKE) -C src/ clean
+	@$(MAKE) -C kernel/ clean
 	@echo "	CLEAN	ALL"
 
 .PHONY: format

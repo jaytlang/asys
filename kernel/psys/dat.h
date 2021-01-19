@@ -62,6 +62,7 @@ enum procstate{ RUNNING, RUNNABLE, SLEEPING };
 
 #define MSGBUFSZ    4096
 #define NOCONDITION 0
+#define PROCNAMESZ  20
 
 struct proc{
 	unsigned int lock;
@@ -75,6 +76,8 @@ struct proc{
 
 	unsigned int killswitch;
 	unsigned long pid;
+
+	char *name;
 
 	unsigned long *upgtbl; /* Obviously a page but separate */
 	unsigned long memsize;

@@ -2,7 +2,7 @@
 #define INC_KAPI_PSYS
 
 /* utility to cross module boundary */
-void procinit(void);
+void procinitvia(void (*tr)(void));
 
 /* preparation for usermode */
 void *exporttrapframe(void);

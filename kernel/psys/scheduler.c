@@ -1,6 +1,7 @@
 #include "dat.h"
 #include "fns.h"
 
+#include <dsys.h>
 #include <hsys.h>
 #include <lsys.h>
 #include <psys.h>
@@ -33,9 +34,14 @@ scheduler(void)
 		for(p = proclist; p != NULL; p = p->next){
 			acquire(&p->lock);
 			if(p->pstate == RUNNABLE){
+				uartwrite("Switching to process: ");
+				uartwrite(p->name);
+				uartwrite("\n");
+
 				p->pstate = RUNNING;
 				currentproc = p;
 				llcontextswitch(globalcontext, &p->pkcontext);
+
 				currentproc = NULL;
 			}
 			release(&p->lock);

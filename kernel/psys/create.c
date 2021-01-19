@@ -6,8 +6,18 @@
 #include <msys.h>
 #include <psys.h>
 
+void
+incarnate(void)
+{
+	if(currentproc == NULL)
+		ultimateyeet("incarnate should be called from a new process!");
+
+	release(&currentproc->lock);
+	tohsys();
+}
+
 struct proc *
-mkproc(void)
+mkproc(char *name)
 {
 	struct proc *newproc;
 
@@ -37,6 +47,7 @@ mkproc(void)
 	memset(newproc->msgbuf, 0, MSGBUFSZ);
 
 	newproc->msgcondition = NOCONDITION;
+	newproc->name = name;
 
 	newproc->trapframe = allocpage();
 	if(!newproc->trapframe) goto oompanic;
@@ -47,8 +58,8 @@ mkproc(void)
 
 	newproc->upgtbl = mkupgtbl((char *)(newproc->trapframe));
 
-	/* Set the scheduler context to run: TODO */
-	/* newproc->pkcontext.ra = retfxn */
+	/* Set the scheduler context to run. */
+	newproc->pkcontext.ra = (unsigned long)incarnate;
 	return newproc;
 
 oompanic:

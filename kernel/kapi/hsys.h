@@ -37,9 +37,9 @@ void llcontextswitch(void *old, void *new);
  */
 #define UART_ADDRESS 0x10000000
 
-/* User trap handler */
-
+/* User trap handler: pedantry warning */
 void utrap(unsigned long sstatus, unsigned long scause,
            void (*ret)(unsigned long *, void *));
+void gotouser(void (*ret)(unsigned long *, void *));
 
 #endif /* INC_KAPI_HSYS */

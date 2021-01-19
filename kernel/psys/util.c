@@ -12,12 +12,16 @@ unsigned long toppid;
 unsigned int pidlock;
 unsigned int proclistlock;
 
+void (*tohsys)(void);
+
 void
-procinit(void)
+procinitvia(void (*tr)(void))
 {
 	pidlock = 0;
 	proclistlock = 0;
 	toppid = 0;
+
+	tohsys = tr;
 
 	proclist = NULL;
 	currentproc = NULL;

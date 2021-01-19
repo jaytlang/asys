@@ -35,7 +35,7 @@ main()
 	uartwrite("done\n");
 
 	uartwrite("Init plist with kernel stack...");
-	procinit();
+	procinitvia(newproctotrapret);
 	uartwrite("done\n");
 
 	uartwrite("Locks currently held: ");
