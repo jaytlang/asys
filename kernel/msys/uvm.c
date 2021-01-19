@@ -22,3 +22,37 @@ mkupgtbl(char *trapframe)
 
 	return newpgtbl;
 }
+
+void
+mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
+            int mtype)
+{
+	unsigned long trueold, truenew, i;
+	unsigned long *page;
+	int perm;
+
+	/* oldsize needs to be aligned to the page boundary
+	 * if we stick with this pattern, we won't need to
+	 * worry about aligning truenew since the process can think
+	 * it only has part of a page.
+	 */
+	trueold = roundup(oldsz, PAGESIZE);
+	truenew = newsz;
+
+	/* set permissions based upon mtype */
+	if(mtype == MEMTYPE_DATA) perm = PTER | PTEW | PTEU;
+	else if(mtype == MEMTYPE_CODE)
+		perm = PTER | PTEX | PTEU;
+	else{
+		ultimateyeet("moreuserpages: bad mtype");
+		return;
+	}
+
+	for(i = trueold; i < truenew; i += PAGESIZE){
+		page = allocpage();
+		if(!page) ultimateyeet("Out of memory!");
+		memset(page, 0, PAGESIZE);
+
+		map(pgtbl, (char *)i, (char *)page, perm);
+	}
+}
