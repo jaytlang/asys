@@ -27,7 +27,7 @@ export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
 export LDFLAGS = -nostdlib -T$(LDSCRIPT) -Map=$(MAP)
 export ARFLAGS = rcs
 
-$(TARGET): $(OBJ) $(AOBJ) $(MSYS) $(DSYS) $(LSYS) $(HSYS) $(PSYS)
+$(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS) $(PSYS) $(MSYS) $(LSYS)
 	@echo "	LD	$@"
 	@$(LD) -o $@ $^ $(LDFLAGS)
 

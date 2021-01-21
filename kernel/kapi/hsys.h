@@ -16,6 +16,9 @@ void ultimateyeet(char *reason);
 /* Paging enable */
 void installpgtbl(unsigned long *pgtbl);
 
+/* Target interrupts */
+void setstvec(unsigned long destination);
+
 /* Whomstdve am I? */
 unsigned long hartid(void);
 

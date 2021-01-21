@@ -11,6 +11,9 @@ unsigned long newpid(void);
  */
 extern void (*tohsys)(void);
 
+/* Internal scheduler entry */
+void yield(void);
+
 /* make a new process to begin with */
 struct proc *mkproc(char *name);
 

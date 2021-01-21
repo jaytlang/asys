@@ -1,6 +1,6 @@
 KERNEL = kernel/asyskrn.exe
 CPUS = 4
-RAM = 256M
+RAM = 1G
 
 QEMU = qemu-system-riscv64
 QEMUFLAGS = -machine virt -bios none -kernel $(KERNEL)

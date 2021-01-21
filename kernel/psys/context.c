@@ -4,6 +4,17 @@
 #include <hsys.h>
 #include <psys.h>
 
+/* External gate */
+void
+suspend(void)
+{
+	acquire(&currentproc->lock);
+	currentproc->pstate = RUNNABLE;
+	/* bye! scheduler handles set to RUNNING */
+	yield();
+	release(&currentproc->lock);
+}
+
 /* hi i'm a coroutine (: */
 void
 yield(void)

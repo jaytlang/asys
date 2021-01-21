@@ -7,14 +7,12 @@
 
 int main();
 
-/* Cross module stuff */
-void newproctotrapret(void);
-
-/* Return to userspace */
-extern void lluret(unsigned long *upgtbl, void *tf);
-
 /* usermode tests */
-void testprocone(void);
-void testproctwo(void);
+void one(void);
+
+/* cross module functionality to
+ * avoid troubles with circular dependencies
+ */
+void newproctotrapret(void);
 
 #endif /* INC_JSYSKRN_FNS */

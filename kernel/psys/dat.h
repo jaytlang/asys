@@ -3,6 +3,7 @@
 
 struct kcontext{
 	unsigned long ra;
+	unsigned long sp;
 
 	unsigned long s0;
 	unsigned long s1;
@@ -24,8 +25,10 @@ struct trapframe{
 	void (*stg2)(unsigned long, unsigned long,
 	             void (*ret)(unsigned long *, void *));
 
-	unsigned long epc;
+	unsigned long ksatp;
+	unsigned long ksp;
 
+	unsigned long epc;
 	unsigned long ra;
 	unsigned long sp;
 	unsigned long gp;
@@ -82,6 +85,7 @@ struct proc{
 	unsigned long *upgtbl; /* Obviously a page but separate */
 	unsigned long memsize;
 
+	char *ksbase;
 	struct kcontext pkcontext;   /* Inline */
 	struct trapframe *trapframe; /* A page */
 

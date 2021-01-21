@@ -11,7 +11,7 @@ descendonce(unsigned long *pgtbl, char *va, unsigned int level)
 	unsigned long *pte;
 
 	/* This really shouldn't happen */
-	if(!va || (unsigned long)va >= MAXVA) ultimateyeet("descend: bad va");
+	if((unsigned long)va >= MAXVA) ultimateyeet("descend: bad va");
 	if(level > 2) ultimateyeet("descend: bad level");
 
 	/* This is theoretically fine */
@@ -35,7 +35,7 @@ pteforva(unsigned long *pgtbl, char *va)
 	unsigned long *nextpgtbl;
 
 	if(!pgtbl) ultimateyeet("translate: bad pgtbl");
-	if(!va || (unsigned long)va >= MAXVA) ultimateyeet("translate: bad va");
+	if((unsigned long)va >= MAXVA) ultimateyeet("translate: bad va");
 
 	nextpgtbl = pgtbl;
 
@@ -50,14 +50,8 @@ pteforva(unsigned long *pgtbl, char *va)
 unsigned long *
 translateva(unsigned long *pgtbl, char *va)
 {
-	unsigned long *nextpgtbl;
-	int level;
+	unsigned long *pte;
 
-	nextpgtbl = pgtbl;
-	for(level = 2; level >= 0; level--){
-		nextpgtbl = descendonce(nextpgtbl, va, level);
-		if(!nextpgtbl) return NULL;
-	}
-
-	return nextpgtbl;
+	pte = pteforva(pgtbl, va);
+	return (unsigned long *)physviapte(*pte);
 }

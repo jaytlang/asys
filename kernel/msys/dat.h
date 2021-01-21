@@ -6,8 +6,6 @@
 #define MEMORY_LENGTH 0x10000000
 #define MEMORY_TOP    0x90000000
 
-#define MAXVA 0x3ffffffff
-
 /* Start of free memory, somewhere
  * between KERNBASE and MEMORY_TOP
  */
@@ -35,9 +33,5 @@ extern unsigned int pglock;
 #define PTEX        1 << 3
 #define PTEU        1 << 4
 #define PTEFLAGBITS 10
-
-/* Memory mappings */
-#define UTRAPVEC MAXVA - PAGESIZE
-#define UTRAPFRM UTRAPVEC - PAGESIZE
 
 #endif /* INC_MSYS_DAT */

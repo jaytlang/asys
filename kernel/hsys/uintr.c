@@ -3,6 +3,7 @@
 
 #include <dsys.h>
 #include <hsys.h>
+#include <msys.h>
 #include <psys.h>
 
 void
@@ -10,6 +11,9 @@ utrap(unsigned long sstatus, unsigned long scause,
       void (*ret)(unsigned long *, void *))
 {
 	int devintrres;
+
+	/* Prevent any further issues NOW by restoring stvec */
+	setstvec(0);
 
 	/* Check we're from usermode */
 	if((sstatus & SSTATUS_SPPMASK) != 0)
@@ -27,10 +31,9 @@ utrap(unsigned long sstatus, unsigned long scause,
 	/* If this is a timer interrupt, yield */
 	if(devintrres != DEVINTR_TIMER)
 		uartwrite(
-		    "Unknown interrupt from usermode caught and discarded");
+		    "Unknown interrupt from usermode caught and discarded\n");
 	else{
-		uartwrite("Triggering yield from userspace");
-		yield();
+		suspend();
 	}
 
 	gotouser(ret);
@@ -39,16 +42,14 @@ utrap(unsigned long sstatus, unsigned long scause,
 void
 gotouser(void (*ret)(unsigned long *, void *))
 {
-	void *tf;
 	unsigned long *pgtbl;
 
 	/* Disable interrupts in preparation for the yeet */
 	togglesintr(INTROFF);
 
 	/* get the trap frame and pgtbl from psys */
-	tf = exporttrapframe();
 	pgtbl = exportupgtbl();
 
 	/* bye! */
-	ret(pgtbl, tf);
+	ret(pgtbl, (void *)(UTRAPFRM));
 }

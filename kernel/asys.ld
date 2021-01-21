@@ -8,6 +8,12 @@ SECTIONS {
 		*(.text.init)
 		*(.text .text.startup)
 		. = ALIGN(0x1000);
+
+		PROVIDE(sone = .);
+		*(.text.one)
+		. = ALIGN(0x1000);
+		PROVIDE(eone = .);
+
 		_kernjump = .;
 		*(.text.utrap)
 		. = ALIGN(0x1000);

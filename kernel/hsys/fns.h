@@ -12,6 +12,7 @@ extern void llwfi(void);
 extern void llsetsatp(unsigned long satp);
 extern void llsetsstatus(unsigned long sstatus);
 extern void llsetsepc(unsigned long sepc);
+extern void llsetstvec(unsigned long stvec);
 
 extern void llsieoff(void);
 extern void llsieon(void);

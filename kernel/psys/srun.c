@@ -1,6 +1,7 @@
 #include "dat.h"
 #include "fns.h"
 
+#include <dsys.h>
 #include <hsys.h>
 #include <lsys.h>
 #include <msys.h>
@@ -13,6 +14,7 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 	struct proc *new;
 	unsigned long prgrmsize;
 	unsigned long entrydelta;
+	int foundepc;
 
 	if(end <= start) ultimateyeet("Bad program start/end!");
 	if(!name) ultimateyeet("Bad name");
@@ -37,6 +39,8 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 	 * to end-start. The PAs are start->end in contiguous order.
 	 * With a walk primitive, this is simple...
 	 */
+	foundepc = 0;
+
 	prgrmpage = (char *)start;
 	for(vpage = 0; vpage < (char *)prgrmsize;
 	    vpage += PAGESIZE, prgrmpage += PAGESIZE){
@@ -49,12 +53,16 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 		memcpy(tgtpage, prgrmpage, PAGESIZE);
 
 		/* Check for the entrypoint */
-		if(entrypt > (unsigned long)prgrmpage &&
+		if(entrypt >= (unsigned long)prgrmpage &&
 		   entrypt < (unsigned long)prgrmpage + PAGESIZE){
 			entrydelta = entrypt - (unsigned long)prgrmpage;
 			new->trapframe->epc = (unsigned long)vpage + entrydelta;
+			foundepc = 1;
 		}
 	}
+
+	/* did we land on the entrypoint or is something really bad here? */
+	if(!foundepc) ultimateyeet("no entrypoint somehow");
 
 	/* make the guard page and the user stack */
 	new->memsize = prgrmsize + 2 * PAGESIZE;
@@ -65,5 +73,10 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 
 	new->trapframe->sp = (unsigned long)translateva(
 	    new->upgtbl, (char *)(new->memsize - PAGESIZE));
+	if(!new->trapframe->sp)
+		ultimateyeet("failed to set sp in new srun'd process!");
+
+	/* Donezo! */
+	release(&new->lock);
 	return new->pid;
 }

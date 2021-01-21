@@ -13,24 +13,29 @@ int
 main()
 {
 	uartinit();
-	uartwrite("asyskrn.exe version 0.1\n");
+	uartwrite("asyskrn.exe (jayos) version 0.0.1\n");
 
-	uartwrite("\nRegistering trap vector...");
+	uartwrite("Registering trap vector...");
 	registerutrap(llutrap);
+	uartwrite("done\n");
+
+	uartwrite("Registering kernel stack...");
+	registerkstack(kstack);
 	uartwrite("done\n");
 
 	uartwrite("Mapping system memory...\n");
 	setupkvm();
 
-	uartwrite("Enabling paging.\n");
+	uartwrite("Installing kernel page table...");
 	installpgtbl(kpgtbl);
-	uartwrite("Paging is ON! HELLO WORLD!\n");
+	uartwrite("done\n");
 
-	uartwrite("For your information, I am hart ");
+	uartwrite("Verify hartid: ");
 	uartwritenum(hartid());
-	uartwrite("\n");
+	uartwrite("...done\n");
 
 	uartwrite("Enabling kernel preemption...");
+	setstvec((unsigned long)llstrap);
 	togglesintr(INTRON);
 	uartwrite("done\n");
 
@@ -38,9 +43,21 @@ main()
 	procinitvia(newproctotrapret);
 	uartwrite("done\n");
 
-	uartwrite("Locks currently held: ");
+	uartwrite("Ensure no locks currently held: ");
 	uartwritenum(locksheld());
-	uartwrite("\n");
+	uartwrite("...done\n");
+
+	uartwrite("Adding initial process image to scheduler...");
+	srun((unsigned long)one, (unsigned long)sone, (unsigned long)eone,
+	     "myprocess");
+	srun((unsigned long)one, (unsigned long)sone, (unsigned long)eone,
+	     "anotherprocess");
+	srun((unsigned long)one, (unsigned long)sone, (unsigned long)eone,
+	     "coolprocess");
+	uartwrite("done\n");
+
+	uartwrite("\nKernel initialization complete.\n\n");
+	scheduler();
 
 	for(;;)
 		;

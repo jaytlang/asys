@@ -25,6 +25,7 @@
  * it off and restore it here.
  */
 unsigned long oldintrstate = INTROFF;
+unsigned long kernelstvec = 0;
 
 unsigned long
 getoldintrstate(void)
@@ -36,6 +37,17 @@ void
 setoldintrstate(unsigned long newstate)
 {
 	oldintrstate = newstate;
+}
+
+/* Set stvec, designating where kernel interrupts should go */
+void
+setstvec(unsigned long destination)
+{
+	if(destination != 0) kernelstvec = destination;
+	else if(kernelstvec == 0)
+		ultimateyeet("Unknown default kernel interrupt handler");
+
+	llsetstvec(kernelstvec);
 }
 
 int

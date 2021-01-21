@@ -5,11 +5,10 @@
 void procinitvia(void (*tr)(void));
 
 /* preparation for usermode */
-void *exporttrapframe(void);
 unsigned long *exportupgtbl(void);
 
-/* Internal scheduler entry */
-void yield(void);
+/* External scheduler entry */
+void suspend(void);
 
 /* Process creation! */
 unsigned long srun(unsigned long entrypt, unsigned long start,

@@ -2,7 +2,7 @@
 #include "fns.h"
 
 #include <hsys.h>
-#include <psys.h>
+#include <msys.h>
 
 /* Shims for when functionality required
  * crosses kernel "module" borders.
@@ -10,5 +10,8 @@
 void
 newproctotrapret(void)
 {
-	gotouser(lluret);
+	unsigned long addr;
+
+	addr = UTRAPVEC + ((unsigned long)lluret - (unsigned long)llutrap);
+	gotouser((void (*)(unsigned long *, void *))addr);
 }

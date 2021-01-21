@@ -4,6 +4,7 @@
 #include <dsys.h>
 #include <hsys.h>
 #include <lsys.h>
+#include <msys.h>
 #include <psys.h>
 
 /* the os scheduler, in its glory
@@ -18,6 +19,7 @@ scheduler(void)
 {
 	struct proc *p;
 	struct kcontext sglobalcontext;
+	unsigned long intrstate;
 
 	/* Set up the global context on the scheduler
 	 * stack, since it'll be relatively untouched here
@@ -40,9 +42,16 @@ scheduler(void)
 
 				p->pstate = RUNNING;
 				currentproc = p;
+
+				intrstate = getoldintrstate();
 				llcontextswitch(globalcontext, &p->pkcontext);
+				setoldintrstate(intrstate);
 
 				currentproc = NULL;
+			}else{
+				uartwrite("Skipping process ");
+				uartwrite(p->name);
+				uartwrite(": not runnable\n");
 			}
 			release(&p->lock);
 		}
