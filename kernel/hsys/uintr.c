@@ -26,14 +26,20 @@ utrap(unsigned long sstatus, unsigned long scause,
 	/* Handle it as we normally would...no syscalls yet but that
 	 * check would go here. We would also turn on interrupts
 	 */
-	devintrres = handledevintr(scause);
+	if((scause & SCAUSE_INTR) == 0){
+		if((scause & SCAUSE_EXCODEMASK) == EXCODE_ECALL) syscall();
+		else
+			ultimateyeet("Unknown synchronous exception\n");
+	}else{
+		devintrres = handledevintr(scause);
 
-	/* If this is a timer interrupt, yield */
-	if(devintrres != DEVINTR_TIMER)
-		uartwrite(
-		    "Unknown interrupt from usermode caught and discarded\n");
-	else{
-		suspend();
+		/* If this is a timer interrupt, yield */
+		if(devintrres != DEVINTR_TIMER)
+			uartwrite("Unknown interrupt from usermode caught and "
+			          "discarded\n");
+		else{
+			suspend();
+		}
 	}
 
 	gotouser(ret);

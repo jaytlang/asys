@@ -15,4 +15,7 @@ unsigned long srun(unsigned long entrypt, unsigned long start,
                    unsigned long end, char *name);
 void scheduler(void);
 
+/* System calls */
+void syscall(void);
+
 #endif /* INC_KAPI_PSYS */

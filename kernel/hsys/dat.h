@@ -8,6 +8,7 @@
 #define SCAUSE_INTR        1L << 63
 #define SCAUSE_EXCODEMASK  0xff
 #define EXCODE_EXTERNINTR  9
+#define EXCODE_ECALL       8
 #define EXCODE_MMODESWINTR 1
 
 /* The timervec machine mode scratch

@@ -69,7 +69,7 @@ handledevintr(unsigned long scause)
 		 * Clear the software interrupt bit in sip once
 		 * we've figured this one out
 		 */
-		uartwrite("Yo, we got a timer interrupt!\n");
+		uartwrite("Acked timer interrupt!\n");
 		llclearsip();
 		return DEVINTR_TIMER;
 	}
