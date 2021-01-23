@@ -2,7 +2,16 @@
 #include "fns.h"
 
 #include <hsys.h>
+#include <lsys.h>
 #include <psys.h>
+
+unsigned int
+isglobalcontext(void)
+{
+	if(currentproc == NULL) return 1;
+	else
+		return 0;
+}
 
 /* External gate */
 void

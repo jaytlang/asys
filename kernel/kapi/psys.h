@@ -18,4 +18,7 @@ void scheduler(void);
 /* System calls */
 void syscall(void);
 
+/* Context check */
+unsigned int isglobalcontext(void);
+
 #endif /* INC_KAPI_PSYS */

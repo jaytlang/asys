@@ -3,6 +3,7 @@
 
 #include <dsys.h>
 #include <hsys.h>
+#include <psys.h>
 
 /* OK so basically. This is a property specific
  * to a given kernel context (including the global
@@ -97,7 +98,9 @@ ktrap(unsigned long sepc, unsigned long sstatus, unsigned long scause)
 		ultimateyeet("Interrupts are still on, whomstdvent");
 	/* Process the interrupt */
 	result = handledevintr(scause);
-	if(result == -1) uartwrite("Unknown interrupt caught and discarded\n");
+	if(result == DEVINTR_TIMER && !isglobalcontext()) suspend();
+	else if(result == -1)
+		uartwrite("Unknown interrupt caught and discarded\n");
 
 	/* Return to previous task, setting the PC back to what
 	 * it should be and auto-getting machine mode with the sret
