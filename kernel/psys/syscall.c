@@ -8,8 +8,8 @@
 void
 syscall(void)
 {
-	uartwrite("acked system call\n");
 	acquire(&currentproc->lock);
+	uartwrite("acked system call\n");
 	currentproc->trapframe->epc += 4;
 	release(&currentproc->lock);
 }
