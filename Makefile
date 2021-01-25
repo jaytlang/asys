@@ -1,4 +1,4 @@
-KERNEL = kernel/asyskrn.exe
+KERNEL = src/asyskrn.exe
 CPUS = 4
 RAM = 1G
 
@@ -7,15 +7,16 @@ QEMUFLAGS = -machine virt -bios none -kernel $(KERNEL)
 QEMUFLAGS += -m $(RAM) -smp $(CPUS) -nographic 
 QEMU_GDBFLAGS = -S -gdb tcp::9000
 
+MAKEFLAGS += --no-print-directory
+
 GDB = riscv64-unknown-elf-gdb
-MAKEFLAGS = --no-print-directory --quiet
 
 .PHONY: all
 all:
-	@$(MAKE) -C kernel/
+	@$(MAKE) -C src/
 
 $(KERNEL):
-	@$(MAKE) -C kernel/
+	@$(MAKE) -C src/
 
 .PHONY: sim
 sim: all
@@ -42,7 +43,7 @@ gdb: all
 
 .PHONY: clean
 clean:
-	@$(MAKE) -C kernel/ clean
+	@$(MAKE) -C src/ clean
 	@echo "	CLEAN	ALL"
 
 .PHONY: format
