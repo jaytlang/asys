@@ -48,8 +48,8 @@ main()
 	uartwrite("...done\n");
 
 	uartwrite("Adding initial process image to scheduler...");
-	srun((unsigned long)rsmain, (unsigned long)startrs,
-	     (unsigned long)endrs, "rs");
+	srun((unsigned long)psmain, (unsigned long)startps,
+	     (unsigned long)endps, "ps");
 	uartwrite("done\n");
 
 	uartwrite("\nKernel initialization complete.\n\n");

@@ -16,6 +16,6 @@ extern char llstrap[];
 /* The initramfs */
 extern char _binary_initrd_dat_start[];
 extern char _binary_initrd_dat_end[];
-extern char startrs[], endrs[];
+extern char startps[], endps[];
 
 #endif /* INC_JSYSKRN_DAT */

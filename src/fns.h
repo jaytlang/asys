@@ -8,7 +8,7 @@
 int main();
 
 /* usermode bootstrap */
-void rsmain(void);
+void psmain(void);
 
 /* cross module functionality to
  * avoid troubles with circular dependencies

@@ -77,7 +77,6 @@ struct proc{
 	unsigned long out;
 	unsigned long msgcondition;
 
-	unsigned int killswitch;
 	unsigned long pid;
 
 	char *name;
