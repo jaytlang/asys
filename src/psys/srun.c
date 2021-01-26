@@ -64,17 +64,17 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 	/* did we land on the entrypoint or is something really bad here? */
 	if(!foundepc) ultimateyeet("no entrypoint somehow");
 
-	/* make the guard page and the user stack */
+	/* make the guard page and the user stack
+	 * additionally, set memsize to point to the end
+	 * of memory we've set so that the heap works.
+	 */
 	new->memsize = prgrmsize + 2 * PAGESIZE;
 	mkuserpages(new->upgtbl, prgrmsize, prgrmsize + PAGESIZE,
 	            MEMTYPE_GUARD);
 	mkuserpages(new->upgtbl, prgrmsize + PAGESIZE, new->memsize,
 	            MEMTYPE_DATA);
 
-	new->trapframe->sp = (unsigned long)translateva(
-	    new->upgtbl, (char *)(new->memsize - PAGESIZE));
-	if(!new->trapframe->sp)
-		ultimateyeet("failed to set sp in new srun'd process!");
+	new->trapframe->sp = prgrmsize + 2 * PAGESIZE;
 
 	/* Donezo! */
 	release(&new->lock);

@@ -30,6 +30,10 @@ void mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
 /* Diet paging */
 unsigned long *translateva(unsigned long *pgtbl, char *va);
 
+/* Copy in/out */
+int copyfrompgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz);
+int copytopgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz);
+
 /* Page size */
 #define PAGESIZE 4096
 

@@ -90,6 +90,9 @@ struct proc{
 	struct proc *next;
 };
 
+/* System calls */
+#define SYS_TEST 0
+
 extern struct proc *proclist;
 extern struct proc *currentproc;
 extern unsigned int proclistlock;

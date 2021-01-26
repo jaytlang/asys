@@ -23,8 +23,10 @@ utrap(unsigned long sstatus, unsigned long scause,
 	if((sstatus & SSTATUS_SIEMASK) != 0)
 		ultimateyeet("Interrupts are still on, whomstdvent");
 
-	/* Handle it as we normally would...no syscalls yet but that
-	 * check would go here. We would also turn on interrupts
+	/* Handle it as we normally would. This depends on whether it's
+	 * a syscall or not. If it is, delegate to the handler and activate
+	 * interrupts there. We don't know about anything else besides the timer
+	 * interrupt, in which case we yield.
 	 */
 	if((scause & SCAUSE_INTR) == 0){
 		if((scause & SCAUSE_EXCODEMASK) == EXCODE_ECALL) syscall();
@@ -37,9 +39,8 @@ utrap(unsigned long sstatus, unsigned long scause,
 		if(devintrres != DEVINTR_TIMER)
 			uartwrite("Unknown interrupt from usermode caught and "
 			          "discarded\n");
-		else{
+		else
 			suspend();
-		}
 	}
 
 	gotouser(ret);
