@@ -58,3 +58,59 @@ mkuserpages(unsigned long *pgtbl, unsigned long oldsz, unsigned long newsz,
 		map(pgtbl, (char *)i, (char *)page, perm);
 	}
 }
+
+/* Copy data into the kernel...src/dst may not be page aligned */
+int
+copyfrompgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz)
+{
+	unsigned long thispg;
+	char *thispa;
+	unsigned int thiscnt, thisoffset;
+
+	while(sz > 0){
+		thispg = rounddown((unsigned long)src, PAGESIZE);
+		thispa = (char *)translateva(pgtbl, (char *)thispg);
+
+		if(thispa == NULL) return -1;
+
+		thisoffset = (unsigned long)src - thispg;
+		thiscnt = PAGESIZE - thisoffset;
+		if(thiscnt > sz) thiscnt = sz;
+
+		memcpy(dst, thispa + thisoffset, thiscnt);
+
+		dst += thiscnt;
+		src += thiscnt;
+		sz -= thiscnt;
+	}
+
+	return 0;
+}
+
+/* Vice versa */
+int
+copytopgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz)
+{
+	unsigned long thispg;
+	char *thispa;
+	unsigned int thiscnt, thisoffset;
+
+	while(sz > 0){
+		thispg = rounddown((unsigned long)dst, PAGESIZE);
+		thispa = (char *)translateva(pgtbl, (char *)thispg);
+
+		if(thispa == NULL) return -1;
+
+		thisoffset = (unsigned long)dst - thispg;
+		thiscnt = PAGESIZE - thisoffset;
+		if(thiscnt > sz) thiscnt = sz;
+
+		memcpy(thispa + thisoffset, src, thiscnt);
+
+		dst += thiscnt;
+		src += thiscnt;
+		sz -= thiscnt;
+	}
+
+	return 0;
+}

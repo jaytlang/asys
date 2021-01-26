@@ -53,5 +53,6 @@ translateva(unsigned long *pgtbl, char *va)
 	unsigned long *pte;
 
 	pte = pteforva(pgtbl, va);
+	if(pte == NULL) return NULL;
 	return (unsigned long *)physviapte(*pte);
 }

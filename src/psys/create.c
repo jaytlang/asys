@@ -42,10 +42,6 @@ mkproc(char *name)
 
 	newproc->pstate = RUNNABLE;
 
-	newproc->msgbuf = allocpage();
-	if(!newproc->msgbuf) goto oompanic;
-	memset(newproc->msgbuf, 0, MSGBUFSZ);
-
 	newproc->msgcondition = NOCONDITION;
 	newproc->name = name;
 

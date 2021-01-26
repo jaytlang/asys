@@ -63,7 +63,6 @@ struct trapframe{
 
 enum procstate{ RUNNING, RUNNABLE, SLEEPING };
 
-#define MSGBUFSZ    4096
 #define NOCONDITION 0
 #define PROCNAMESZ  20
 
