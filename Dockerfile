@@ -3,7 +3,7 @@ MAINTAINER jaytlang@mit.edu
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends qemu-system-misc git curl \
-	make ca-certificates libmpc-dev clang-format vim
+	make build-essential ca-certificates libmpc-dev clang-format vim
 
 RUN mkdir /work
 WORKDIR /work
