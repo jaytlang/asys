@@ -55,8 +55,7 @@ syscall(void)
 
 	if(callno == SYS_TEST) result = test();
 	else if(callno == SYS_SENDREC)
-		result =
-		    sendrec((char *)parg(1), (char *)parg(2), parg(3), parg(4));
+		result = sendrec(parg(1), parg(2), parg(3));
 	else{
 		uartwrite("Unknown syscall: ");
 		uartwritenum(currentproc->trapframe->a0);

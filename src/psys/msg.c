@@ -15,48 +15,22 @@
  * map lots of memory into kpgtbl and get rid of it later.
  */
 unsigned long
-sendrec(char *msgva, char *resbuf, unsigned long dstcode, unsigned long len)
+sendrec(unsigned long dstcode, unsigned long seqnum, unsigned long msg)
 {
-	char *pa;
-	char *rawresult;
-	unsigned long retval;
+	unsigned long result;
 
-	if(len > PAGESIZE)
-		ultimateyeet(
-		    "PAGESIZE byte + messages are currently unsupported");
-
-	/* Copy the message into kernelspace */
-	pa = allocpage();
-	memset(pa, 0, PAGESIZE);
-
-	if(copyfrompgtbl(currentproc->upgtbl, pa, msgva, len) < 0)
-		ultimateyeet("Failed to copyin message to kernel");
-
-	/* pa now contains message. send it to who matters...unless it's
-	 * a kernel message in which case handle it
-	 */
+	/* examine the message: who to send to? */
 	if(dstcode == DST_KERNEL){
-		uartwrite("Received message to the kernel:");
-		uartwrite(pa);
+		uartwrite("Received message to the kernel: ");
+		uartwritenum(msg);
 		uartwrite("\n");
 
 		/* handle the message by making the proper invocation */
-		freepage(pa);
-		rawresult = "";
-		retval = 0;
+		result = 0;
 	}else{
 		uartwrite("Unknown message destination, discarding.\n");
-		freepage(pa);
-		rawresult = "no";
-		retval = 1;
+		result = seqnum;
 	}
 
-	/* Return to userspace after telling the process we have
-	 * literally no idea what's going on at all send help
-	 */
-	if(copytopgtbl(currentproc->upgtbl, resbuf, rawresult,
-	               strlen(rawresult) + 1) < 0)
-		ultimateyeet("Failed to copyout response to user");
-
-	return retval;
+	return result;
 }

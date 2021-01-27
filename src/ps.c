@@ -11,8 +11,6 @@ __attribute__((section(".text.ps"))) void
 psmain(void)
 {
 	int i;
-	char sendbuf[12];
-	char recvbuf[12];
 
 	i = dosyscall(TEST, 0, 0, 0, 0, 0);
 	if(i != 0){
@@ -20,14 +18,7 @@ psmain(void)
 			;
 	}
 
-	sendbuf[0] = 'h';
-	sendbuf[1] = 'i';
-	sendbuf[2] = '!';
-	sendbuf[3] = '!';
-	sendbuf[4] = '\0';
-
-	dosyscall(SENDREC, (unsigned long)sendbuf, (unsigned long)recvbuf, 0, 5,
-	          0);
+	dosyscall(SENDREC, 0, 0, 555555, 0, 0);
 
 	for(;;) i++;
 }

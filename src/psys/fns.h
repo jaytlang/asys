@@ -18,7 +18,6 @@ void yield(void);
 struct proc *mkproc(char *name);
 
 /* send/receive messages */
-unsigned long sendrec(char *msgva, char *resbuf, unsigned long dstcode,
-                      unsigned long len);
+unsigned long sendrec(unsigned long dstcode, unsigned long seqnum, unsigned long msg);
 
 #endif /* INC_PSYS_FNS */
