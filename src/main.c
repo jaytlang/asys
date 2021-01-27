@@ -9,6 +9,19 @@
 /* Kernel stack for the first hart */
 __attribute__((aligned(16))) char kstack[4096];
 
+/* Shims for when functionality required
+ * crosses kernel "module" borders.
+ */
+void
+newproctotrapret(void)
+{
+	unsigned long addr;
+
+	addr = UTRAPVEC + ((unsigned long)lluret - (unsigned long)llutrap);
+	gotouser((void (*)(unsigned long *, void *))addr);
+}
+
+/* Kernel entrypoint */
 int
 main()
 {

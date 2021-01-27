@@ -21,4 +21,7 @@ struct proc *mkproc(char *name);
 unsigned long sendrec(unsigned long dstcode, unsigned long seqnum,
                       unsigned long msg);
 
+/* grow the process heap */
+unsigned long growby(unsigned long amount);
+
 #endif /* INC_PSYS_FNS */

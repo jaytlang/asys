@@ -1,5 +1,5 @@
-SRC = $(wildcard *.c)
-ASRC = $(wildcard *.S)
+SRC = $(wildcard *.c bootstrap/*.c)
+ASRC = $(wildcard *.S bootstrap/*.S)
 
 OBJ = $(SRC:.c=.o)
 AOBJ = $(ASRC:.S=.o)

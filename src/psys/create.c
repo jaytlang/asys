@@ -42,7 +42,6 @@ mkproc(char *name)
 
 	newproc->pstate = RUNNABLE;
 
-	newproc->msgcondition = NOCONDITION;
 	newproc->name = name;
 
 	newproc->trapframe = allocpage();

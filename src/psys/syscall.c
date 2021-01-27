@@ -42,10 +42,7 @@ syscall(void)
 	unsigned long result;
 	unsigned long callno;
 
-	/* We're done mutating the process
-	 * trapframe so activate interrupts after
-	 * lock release...
-	 */
+	/* Activate interrupts... */
 	togglesintr(INTRON);
 
 	/* Examine the trapframe without touching
@@ -56,6 +53,8 @@ syscall(void)
 	if(callno == SYS_TEST) result = test();
 	else if(callno == SYS_SENDREC)
 		result = sendrec(parg(1), parg(2), parg(3));
+	else if(callno == SYS_GROWBY)
+		result = growby(parg(1));
 	else{
 		uartwrite("Unknown syscall: ");
 		uartwritenum(currentproc->trapframe->a0);

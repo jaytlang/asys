@@ -70,12 +70,6 @@ struct proc{
 	unsigned int lock;
 
 	enum procstate pstate;
-
-	char *msgbuf; /* One page */
-	unsigned long in;
-	unsigned long out;
-	unsigned long msgcondition;
-
 	unsigned long pid;
 
 	char *name;
@@ -93,6 +87,7 @@ struct proc{
 /* System calls */
 #define SYS_TEST    0
 #define SYS_SENDREC 1
+#define SYS_GROWBY  2
 
 /* Message destination */
 #define DST_KERNEL 0
