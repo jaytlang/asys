@@ -17,7 +17,7 @@ growby(unsigned long amount)
 	newsz = currentproc->memsize + amount;
 	mkuserpages(currentproc->upgtbl, oldsz, newsz, MEMTYPE_DATA);
 
-	currentproc->memsize += newsz;
+	currentproc->memsize = newsz;
 	release(&currentproc->lock);
 
 	return currentproc->memsize;
