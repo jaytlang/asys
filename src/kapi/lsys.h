@@ -10,6 +10,8 @@ void *memcpy(void *dest, void *src, unsigned int count);
 unsigned long roundup(unsigned long input, unsigned long roundto);
 unsigned long rounddown(unsigned long input, unsigned long roundto);
 
+unsigned long strlen(char *c);
+
 #define NULL ((void *)0)
 
 /* Errno */

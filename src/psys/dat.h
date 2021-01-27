@@ -91,7 +91,11 @@ struct proc{
 };
 
 /* System calls */
-#define SYS_TEST 0
+#define SYS_TEST    0
+#define SYS_SENDREC 1
+
+/* Message destination */
+#define DST_KERNEL 0
 
 extern struct proc *proclist;
 extern struct proc *currentproc;

@@ -12,10 +12,35 @@ test(void)
 	return 0;
 }
 
+unsigned long
+parg(unsigned int num)
+{
+	switch(num){
+	case 1: return currentproc->trapframe->a1; break;
+	case 2: return currentproc->trapframe->a2; break;
+	case 3: return currentproc->trapframe->a3; break;
+	case 4: return currentproc->trapframe->a4; break;
+	case 5: return currentproc->trapframe->a5; break;
+	default:
+		ultimateyeet("bro you know better than this, 5 args/syscall");
+		break;
+	}
+
+	/* never reached */
+	return 0;
+}
+
 void
 syscall(void)
 {
+	/* Note: syscall interface utilizes positive
+	 * non-zero return values to indicate an error.
+	 * The in-kernel has usually used negative numbers,
+	 * but I see this slowly changing since `unsigned long`
+	 * is more conventional for my code thus far
+	 */
 	unsigned long result;
+	unsigned long callno;
 
 	/* We're done mutating the process
 	 * trapframe so activate interrupts after
@@ -26,12 +51,17 @@ syscall(void)
 	/* Examine the trapframe without touching
 	 * it now, and figure out the syscall cause
 	 */
-	if(currentproc->trapframe->a0 == SYS_TEST) result = test();
+	callno = currentproc->trapframe->a0;
+
+	if(callno == SYS_TEST) result = test();
+	else if(callno == SYS_SENDREC)
+		result =
+		    sendrec((char *)parg(1), (char *)parg(2), parg(3), parg(4));
 	else{
 		uartwrite("Unknown syscall: ");
 		uartwritenum(currentproc->trapframe->a0);
 		uartwrite("\n");
-		result = -1;
+		result = 1;
 	}
 
 	acquire(&currentproc->lock);

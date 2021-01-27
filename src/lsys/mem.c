@@ -25,3 +25,14 @@ memcpy(void *dest, void *src, unsigned int count)
 
 	return dest;
 }
+
+unsigned long
+strlen(char *c)
+{
+	unsigned long cnt;
+
+	cnt = 0;
+
+	while(*c != '\0') cnt++;
+	return cnt;
+}

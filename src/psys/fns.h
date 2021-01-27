@@ -17,4 +17,8 @@ void yield(void);
 /* make a new process to begin with */
 struct proc *mkproc(char *name);
 
+/* send/receive messages */
+unsigned long sendrec(char *msgva, char *resbuf, unsigned long dstcode,
+                      unsigned long len);
+
 #endif /* INC_PSYS_FNS */

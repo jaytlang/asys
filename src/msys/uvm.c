@@ -1,6 +1,7 @@
 #include "dat.h"
 #include "fns.h"
 
+#include <dsys.h>
 #include <hsys.h>
 #include <lsys.h>
 #include <msys.h>
@@ -87,7 +88,12 @@ copyfrompgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz)
 	return 0;
 }
 
-/* Vice versa */
+/* Vice versa. This was confusing for me at first, but remember
+ * that we AREN'T mapping kernel memory into userland. The user
+ * has already allocated the right buffer for us, we're just mapping
+ * through the right thing, paying attention to not-necessarily-
+ * contiguous >PAGESIZE size buffers.
+ */
 int
 copytopgtbl(unsigned long *pgtbl, char *dst, char *src, unsigned int sz)
 {
