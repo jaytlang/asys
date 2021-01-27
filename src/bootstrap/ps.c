@@ -5,18 +5,18 @@
  */
 #include "dat.h"
 
-__attribute__((section(".text.ps"))) void
+PSFN void
 bless(struct psproc *recipient, unsigned long perms)
 {
 	recipient->permissions |= perms;
 }
 
-__attribute__((section(".text.ps"))) unsigned long
+PSFN unsigned long
 checkbless(struct psproc *recipient, unsigned long perm)
 {
 	return recipient->permissions & perm;
 }
-__attribute__((section(".text.ps"))) void
+PSFN void
 psmain(void)
 {
 	int i;

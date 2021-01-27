@@ -13,6 +13,9 @@ extern unsigned long pssyscall(unsigned long num, unsigned long one,
 #define SYS_SENDREC 1
 #define SYS_GROWBY  2
 
+/* ps helpers */
+#define PSFN __attribute__((section(".text.ps")))
+
 /* sendrec destinations */
 
 /* psproc permission bitmask */

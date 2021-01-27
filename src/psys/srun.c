@@ -7,6 +7,7 @@
 #include <msys.h>
 #include <psys.h>
 
+/* Assumes start is page aligned, but not necessarily end or entrypt */
 unsigned long
 srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 {
@@ -29,9 +30,7 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 	 */
 	new = mkproc(name);
 
-	/* In the name of isolation, we won't map user code (in
-	 * the kernel text) directly into userland. We will instead
-	 * copy it to remain faithful to security. Let's make room...
+	/* Map the process directly into userland
 	 */
 	mkuserpages(new->upgtbl, 0, prgrmsize, MEMTYPE_CODE);
 
@@ -49,8 +48,14 @@ srun(unsigned long entrypt, unsigned long start, unsigned long end, char *name)
 		if(!tgtpage)
 			ultimateyeet("should have va mapped that we don't!");
 
-		/* Target acquired. Copy data from prgrmpage to tgtpage */
-		memcpy(tgtpage, prgrmpage, PAGESIZE);
+		/* Target acquired. Copy data from prgrmpage to tgtpage as
+		 * necessary
+		 */
+		if(prgrmsize - (unsigned long)vpage < PAGESIZE)
+			memcpy(tgtpage, prgrmpage,
+			       prgrmsize - (unsigned long)vpage);
+		else
+			memcpy(tgtpage, prgrmpage, PAGESIZE);
 
 		/* Check for the entrypoint */
 		if(entrypt >= (unsigned long)prgrmpage &&
