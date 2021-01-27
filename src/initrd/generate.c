@@ -14,6 +14,7 @@ main(int argc, char *argv[])
 	struct ent superblock[NUMENTS];
 	unsigned char *entrybuf;
 	int i, lenctr;
+	int res;
 	FILE *fd, *sfd;
 
 	if(argc < 2){
@@ -33,7 +34,7 @@ main(int argc, char *argv[])
 	lenctr = SBSZ;
 
 	/* Dry run: determine all the right values */
-	printf("superblock size is %x bytes\n", SBSZ);
+	printf("superblock size is %lx bytes\n", SBSZ);
 	printf("populating superblock");
 	for(i = 0; i < (argc - 1); i++){
 		superblock[i].magic = MAGIC;
@@ -55,12 +56,18 @@ main(int argc, char *argv[])
 	for(i = 0; i < (argc - 1); i++){
 		entrybuf = (unsigned char *)malloc(superblock[i].length);
 		sfd = fopen(superblock[i].name, "r");
-		fread(entrybuf, superblock[i].length, 1, sfd);
+		res = fread(entrybuf, superblock[i].length, 1, sfd);
+		if(res < 0){
+			printf("\tFailed to read from %s, skipping..\n",
+			       superblock[i].name);
+			goto next;
+		}
 		fwrite(entrybuf, superblock[i].length, 1, fd);
 
-		printf("\t%s (%x bytes) -> 0x%x\n", superblock[i].name,
+		printf("\t%s (%lx bytes) -> 0x%lx\n", superblock[i].name,
 		       superblock[i].length, superblock[i].start);
 
+next:
 		fclose(sfd);
 		free(entrybuf);
 	}
