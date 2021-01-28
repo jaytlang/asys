@@ -1,5 +1,5 @@
-SRC = $(wildcard *.c bootstrap/*.c)
-ASRC = $(wildcard *.S bootstrap/*.S)
+SRC = $(wildcard *.c)
+ASRC = $(wildcard *.S)
 
 OBJ = $(SRC:.c=.o)
 AOBJ = $(ASRC:.S=.o)
@@ -16,6 +16,7 @@ HSYS = hsys/hsys.a
 LSYS = lsys/lsys.a
 MSYS = msys/msys.a
 PSYS = psys/psys.a
+ISYS = isys/isys.a
 
 INITRD = initrd/initrd.img
 INITRDDIR = initrd/
@@ -30,7 +31,7 @@ export CFLAGS += -mcmodel=medany -Ikapi/ -fno-pie
 export LDFLAGS = -nostdlib -T$(LDSCRIPT) -Map=$(MAP)
 export ARFLAGS = rcs
 
-$(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS) $(PSYS) $(MSYS) $(LSYS) $(INITRD)
+$(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS) $(PSYS) $(MSYS) $(LSYS) $(ISYS) $(INITRD)
 	@echo "	LD	$@"
 	@$(LD) -o $@ $^ $(LDFLAGS)
 
@@ -45,18 +46,18 @@ $(TARGET): $(OBJ) $(AOBJ) $(DSYS) $(HSYS) $(PSYS) $(MSYS) $(LSYS) $(INITRD)
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 
-$(DSYS) $(HSYS) $(LSYS) $(MSYS) $(PSYS):
+$(DSYS) $(HSYS) $(LSYS) $(MSYS) $(PSYS) $(ISYS):
 	@$(MAKE) -C $(shell echo $@ | sed 's/\/.*//')
 
 $(INITRD):
 	@$(MAKE) -C $(INITRDDIR)
 
 .PHONY: clean
-clean: clean-hsys clean-dsys clean-lsys clean-msys clean-psys
+clean: clean-hsys clean-dsys clean-lsys clean-msys clean-psys clean-isys
 	@echo "	CLEAN	$(TARGET)"
 	@rm -rf $(OBJ) $(AOBJ) $(DEP) $(ADEP) $(TARGET) $(MAP)
 	@$(MAKE) -C $(INITRDDIR) clean
 
-.PHONY: clean-hsys clean-dsys clean-lsys clean-msys clean-psys
-clean-hsys clean-dsys clean-lsys clean-msys clean-psys:
+.PHONY: clean-hsys clean-dsys clean-lsys clean-msys clean-psys clean-isys
+clean-hsys clean-dsys clean-lsys clean-msys clean-psys clean-isys:
 	@$(MAKE) -C $(subst clean-,,$@)/ clean

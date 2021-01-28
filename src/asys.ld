@@ -9,11 +9,6 @@ SECTIONS {
 		*(.text .text.startup)
 		. = ALIGN(0x1000);
 
-		PROVIDE(startps = .);
-		*(.text.ps)
-		. = ALIGN(0x1000);
-		PROVIDE(endps = .);
-
 		_kernjump = .;
 		*(.text.utrap)
 		. = ALIGN(0x1000);

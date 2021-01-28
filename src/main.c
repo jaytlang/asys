@@ -3,6 +3,7 @@
 
 #include <dsys.h>
 #include <hsys.h>
+#include <isys.h>
 #include <msys.h>
 #include <psys.h>
 
@@ -60,15 +61,14 @@ main()
 	uartwritenum(locksheld());
 	uartwrite("...done\n");
 
-	uartwrite("Adding initial process image to scheduler...");
-	srun((unsigned long)psmain, (unsigned long)startps,
-	     (unsigned long)endps, "ps");
-	uartwrite("done\n");
+	uartwrite("Reading initramfs...\n");
+	initramdisk();
+	uartwrite("...done\n");
 
 	uartwrite("\nKernel initialization complete.\n\n");
-	scheduler();
-
 	for(;;)
 		;
+	scheduler();
+
 	return 0xdeadbeef;
 }

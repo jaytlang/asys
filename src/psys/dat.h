@@ -85,9 +85,8 @@ struct proc{
 };
 
 /* System calls */
-#define SYS_TEST    0
-#define SYS_SENDREC 1
-#define SYS_GROWBY  2
+#define SYS_TEST   0
+#define SYS_GROWBY 1
 
 /* Message destination */
 #define DST_KERNEL 0

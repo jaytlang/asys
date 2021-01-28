@@ -13,9 +13,4 @@ extern char llutrap[], lluret[];
 /* The system trap vector, handled in m-mode */
 extern char llstrap[];
 
-/* The initramfs */
-extern char _binary_initrd_dat_start[];
-extern char _binary_initrd_dat_end[];
-extern char startps[], endps[];
-
 #endif /* INC_JSYSKRN_DAT */
