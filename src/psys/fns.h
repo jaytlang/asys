@@ -18,8 +18,7 @@ void yield(void);
 struct proc *mkproc(char *name);
 
 /* send/receive messages */
-unsigned long sendrec(unsigned long dstcode, unsigned long seqnum,
-                      unsigned long msg);
+unsigned long sendrec(unsigned long dstcode, unsigned long msg);
 
 /* grow the process heap */
 unsigned long growby(unsigned long amount);

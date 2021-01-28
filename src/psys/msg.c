@@ -15,22 +15,14 @@
  * map lots of memory into kpgtbl and get rid of it later.
  */
 unsigned long
-sendrec(unsigned long dstcode, unsigned long seqnum, unsigned long msg)
+sendrec(unsigned long dstcode, unsigned long msg)
 {
 	unsigned long result;
 
-	/* examine the message: who to send to? */
-	if(dstcode == DST_KERNEL){
-		uartwrite("Received message to the kernel: ");
-		uartwritenum(msg);
-		uartwrite("\n");
-
-		/* handle the message by making the proper invocation */
-		result = 0;
-	}else{
-		uartwrite("Unknown message destination, discarding.\n");
-		result = seqnum;
-	}
+	uartwrite("Unknown message destination for msg: ");
+	uartwritenum(msg);
+	uartwrite("\n");
+	result = dstcode;
 
 	return result;
 }

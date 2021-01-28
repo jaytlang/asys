@@ -89,9 +89,6 @@ struct proc{
 #define SYS_SENDREC 1
 #define SYS_GROWBY  2
 
-/* Message destination */
-#define DST_KERNEL 0
-
 extern struct proc *proclist;
 extern struct proc *currentproc;
 extern unsigned int proclistlock;

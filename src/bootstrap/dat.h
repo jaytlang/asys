@@ -16,19 +16,6 @@ extern unsigned long pssyscall(unsigned long num, unsigned long one,
 /* ps helpers */
 #define PSFN __attribute__((section(".text.ps")))
 
-/* sendrec destinations */
-
-/* psproc permission bitmask */
-#define PERM_SYS_TEST   1L << 0
-#define PERM_SYS_GROWBY 1L << 1
-
-/* ps: proc structure */
-struct psproc{
-	unsigned long permissions;
-	unsigned long pid;
-	struct psproc *next;
-};
-
 /* duh */
 #define NULL ((void *)0)
 
